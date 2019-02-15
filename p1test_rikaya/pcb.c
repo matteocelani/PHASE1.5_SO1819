@@ -9,17 +9,19 @@ HIDDEN pcb_t pcbFree_table[MAXPROC];
 LIST_HEAD(pcbFree_h);
 
 
-
 /* PCB free list handling functions */
 
 /* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. */
 /* Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. */
 void initPcbs(void){
-	int i = 0;
-	for(; i < MAXPROC; i++){
-		pcb_t* = &pcbFree_table[MAXPROC];
-		list_add_tail(&(pcb.p_next),&(pcbFree_h));
-	}
+    int i=0;
+    for (i;i<MAXPROC;i++){
+        /* Metto nella lista pcbFree_h i puntatori ai pcb */
+        pcb_t* pcb= &pcbFree_table[MAXPROC];
+        list_add_tail(&(pcb.p_next),&(pcbFree_h))
+        ;
+
+    }
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
