@@ -3,16 +3,6 @@
 #include <typer_rikaya.H>
 #include <listx.h>
 
-/* PCB free list handling functions */
-void initPcbs(void);
-void freePcb(pcb_t *p);
-pcb_t *allocPcb(void);
-
-/* PCB queue handling functions */
-void mkEmptyProcQ(struct list_head *head);#include "types_rikaya.h"
-#include "const.h"
-#include "pcb.h"
-
 HIDDEN pcb_t pcbFree_table[MAXPROC];
 
 /* Lista con sentinella dei pcb liberi o inutilizzati */
