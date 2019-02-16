@@ -93,7 +93,16 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 
 }
 
-pcb_t *headProcQ(struct list_head *head);
+
+/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
+/* Ritorna NULL se la coda non ha elementi 					      */
+pcb_t *headProcQ(struct list_head *head){
+	/* Controllo iniziale per vedere se head è vuoto */
+	if list_empty(head) return NULL;
+	
+	/* Devo restituire il primo elemento della lista head non vuota. */
+	return (container_of(head.next, pcb_t, p_next)); 
+}
 
 pcb_t *removeProcQ(struct list_head *head);
 pcb_t *outProcQ(struct list_head *head, pcb_t *p);
