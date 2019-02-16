@@ -74,7 +74,7 @@ void mkEmptyProcQ(struct list_head *head){
 
 /* Controllo se la lista puntata da head è vuota e restituisco true in caso affermativo, false altrimenti */
 int emptyProcQ(struct list_head *head){
-	return (list_empty(&(head)));
+	return (list_empty((head)));
 }
 
 /* Inserisco un processo in coda alla lista, controllando che la priorità sia decrescente */
@@ -99,12 +99,23 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 pcb_t *headProcQ(struct list_head *head){
 	/* Controllo iniziale per vedere se head è vuoto */
 	if list_empty(head) return NULL;
-	
 	/* Devo restituire il primo elemento della lista head non vuota. */
 	return (container_of(head.next, pcb_t, p_next)); 
 }
 
-pcb_t *removeProcQ(struct list_head *head);
+/* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
+/* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
+pcb_t *removeProcQ(struct list_head *head){
+	/* Controllo iniziale per vedere se head è vuoto */
+	/* Se lista è vuota restituisco NULL */
+	if list_empty(head) return NULL; 
+	
+	/* C'è almeno un elemento nella lista */
+	/* Rimuovo il primo e lo restituisco  */
+	pcb_t *tmp = container_of(head->next,pcb_t,p_next) ;	/* Puntatore al primo elemento della lista */
+        list_del(head->next);					/* Lo rimuovo dalla lista */
+        return tmp ;
+}
 pcb_t *outProcQ(struct list_head *head, pcb_t *p);
 
 
