@@ -3,10 +3,12 @@
 #include <typer_rikaya.H>
 #include <listx.h>
 
-HIDDEN pcb_t pcbFree_table[MAXPROC];
+
 
 /* Lista con sentinella dei pcb liberi o inutilizzati */
 LIST_HEAD(pcbFree_h);
+/* Array di PCB con dimensione massimo MAXPROC 	      */
+HIDDEN pcb_t pcbFree_table[MAXPROC];
 
 
 /* PCB free list handling functions */
@@ -116,7 +118,24 @@ pcb_t *removeProcQ(struct list_head *head){
         list_del(head->next);					/* Lo rimuovo dalla lista */
         return tmp ;
 }
-pcb_t *outProcQ(struct list_head *head, pcb_t *p);
+
+/* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
+/* Se p non è presente nella coda, restituisce NULL	 		*/
+pcb_t *outProcQ(struct list_head *head, pcb_t *p){
+	
+	/* Scorro la lista head alla ricerca di p */
+	/* Puntatore che uso per confrontare gli elementi della coda con p */
+	pcb_t* tmp; 
+	list_for_each_entry(i, head, p_next){
+		/* Se p==i, allora rimuovo p dalla lista e lo restituisco */
+		if (p == i) {
+			list_del(&(i->p_next));
+			return p;
+		}
+	}
+	/* Ho finito di scorrere head e non ho trovato p */
+	/* Restituisco NULL */
+	return NULL; 
 
 
 /* Tree view functions */
