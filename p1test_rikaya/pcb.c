@@ -2,10 +2,12 @@
 #include "const.h"
 #include "pcb.h"
 
-HIDDEN pcb_t pcbFree_table[MAXPROC];
+
 
 /* Lista con sentinella dei pcb liberi o inutilizzati */
 LIST_HEAD(pcbFree_h);
+/* Array di PCB con dimensione massimo MAXPROC 	      */
+HIDDEN pcb_t pcbFree_table[MAXPROC];
 
 
 
@@ -71,7 +73,7 @@ void mkEmptyProcQ(struct list_head *head){
 
 /* Controllo se la lista puntata da head è vuota e restituisco true in caso affermativo, false altrimenti */
 int emptyProcQ(struct list_head *head){
-	return (list_empty(&(head)));
+	return (list_empty((head)));
 }
 
 /* Inserisco un processo in coda alla lista, controllando che la priorità sia decrescente */
@@ -90,48 +92,42 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 
 }
 
-pcb_t *headProcQ(struct list_head *head);
-
-pcb_t *removeProcQ(struct list_head *head);
-pcb_t *outProcQ(struct list_head *head, pcb_t *p);
-
-
 
 /* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
 /* Ritorna NULL se la coda non ha elementi 					      */
 pcb_t *headProcQ(struct list_head *head){
-		/* Controllo iniziale per vedere se head è vuoto */
-		if list_empty(head) return NULL;		
-		/* Devo restituire il primo elemento della lista head non vuota. */	
-		return (container_of(head.next, pcb_t, p_next)); 
+	/* Controllo iniziale per vedere se head è vuoto */
+	if list_empty(head) return NULL;
+	/* Devo restituire il primo elemento della lista head non vuota. */
+	return (container_of(head.next, pcb_t, p_next)); 
 }
 
 /* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
 /* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
 pcb_t *removeProcQ(struct list_head *head){
-		/* Controllo iniziale per vedere se head è vuoto */
-		/* Se lista è vuota restituisco NULL */
-		if list_empty(head) return NULL; 
-				
-		/* C'è almeno un elemento nella lista */
-		/* Rimuovo il primo e lo restituisco  */
-		pcb_t *tmp = container_of(head->next,pcb_t,p_next) ;	/* Puntatore al primo elemento della lista */
-		list_del(head->next);					/* Lo rimuovo dalla lista */
-		return tmp ;
+	/* Controllo iniziale per vedere se head è vuoto */
+	/* Se lista è vuota restituisco NULL */
+	if list_empty(head) return NULL; 
+	
+	/* C'è almeno un elemento nella lista */
+	/* Rimuovo il primo e lo restituisco  */
+	pcb_t *tmp = container_of(head->next,pcb_t,p_next) ;	/* Puntatore al primo elemento della lista */
+        list_del(head->next);					/* Lo rimuovo dalla lista */
+        return tmp ;
 }
 
 /* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
 /* Se p non è presente nella coda, restituisce NULL	 		*/
 pcb_t *outProcQ(struct list_head *head, pcb_t *p){
-		
-		/* Scorro la lista head alla ricerca di p */
-		/* Puntatore che uso per confrontare gli elementi della coda con p */
-		pcb_t* tmp; 
-		list_for_each_entry(i, head, p_next){
+	
+	/* Scorro la lista head alla ricerca di p */
+	/* Puntatore che uso per confrontare gli elementi della coda con p */
+	pcb_t* tmp; 
+	list_for_each_entry(i, head, p_next){
 		/* Se p==i, allora rimuovo p dalla lista e lo restituisco */
 		if (p == i) {
-		list_del(&(i->p_next));					
-		return p;						
+			list_del(&(i->p_next));
+			return p;
 		}
 	}
 	/* Ho finito di scorrere head e non ho trovato p */
@@ -177,3 +173,4 @@ pcb_t *removeChild(pcb_t *p){
 		
 }
 pcb_t *outChild(pcb_t *p);
+
