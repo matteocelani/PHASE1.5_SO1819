@@ -1,7 +1,6 @@
-#include <pcb.h>
-#include <const.h>
-#include <typer_rikaya.H>
-#include <listx.h>
+#include "types_rikaya.h"
+#include "const.h"
+#include "pcb.h"
 
 HIDDEN pcb_t pcbFree_table[MAXPROC];
 
@@ -9,19 +8,17 @@ HIDDEN pcb_t pcbFree_table[MAXPROC];
 LIST_HEAD(pcbFree_h);
 
 
+
 /* PCB free list handling functions */
 
 /* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. */
 /* Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. */
 void initPcbs(void){
-    int i=0;
-    for (i;i<MAXPROC;i++){
-        /* Metto nella lista pcbFree_h i puntatori ai pcb */
-        pcb_t* pcb= &pcbFree_table[MAXPROC];
-        list_add_tail(&(pcb.p_next),&(pcbFree_h))
-        ;
-
-    }
+	int i = 0;
+	for(; i < MAXPROC; i++){
+		pcb_t* pcb= &pcbFree_table[MAXPROC];
+		list_add_tail(&(pcb.p_next),&(pcbFree_h));
+	}
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
@@ -99,22 +96,84 @@ pcb_t *removeProcQ(struct list_head *head);
 pcb_t *outProcQ(struct list_head *head, pcb_t *p);
 
 
+
+/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
+/* Ritorna NULL se la coda non ha elementi 					      */
+pcb_t *headProcQ(struct list_head *head){
+		/* Controllo iniziale per vedere se head è vuoto */
+		if list_empty(head) return NULL;		
+		/* Devo restituire il primo elemento della lista head non vuota. */	
+		return (container_of(head.next, pcb_t, p_next)); 
+}
+
+/* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
+/* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
+pcb_t *removeProcQ(struct list_head *head){
+		/* Controllo iniziale per vedere se head è vuoto */
+		/* Se lista è vuota restituisco NULL */
+		if list_empty(head) return NULL; 
+				
+		/* C'è almeno un elemento nella lista */
+		/* Rimuovo il primo e lo restituisco  */
+		pcb_t *tmp = container_of(head->next,pcb_t,p_next) ;	/* Puntatore al primo elemento della lista */
+		list_del(head->next);					/* Lo rimuovo dalla lista */
+		return tmp ;
+}
+
+/* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
+/* Se p non è presente nella coda, restituisce NULL	 		*/
+pcb_t *outProcQ(struct list_head *head, pcb_t *p){
+		
+		/* Scorro la lista head alla ricerca di p */
+		/* Puntatore che uso per confrontare gli elementi della coda con p */
+		pcb_t* tmp; 
+		list_for_each_entry(i, head, p_next){
+		/* Se p==i, allora rimuovo p dalla lista e lo restituisco */
+		if (p == i) {
+		list_del(&(i->p_next));					
+		return p;						
+		}
+	}
+	/* Ho finito di scorrere head e non ho trovato p */
+	/* Restituisco NULL */
+	return NULL; 
+}
+
+
+
 /* Tree view functions */
-int emptyChild(pcb_t *this);
-void insertChild(pcb_t *prnt, pcb_t *p);
-pcb_t *removeChild(pcb_t *p);
-pcb_t *outChild(pcb_t *p);
 
-int emptyProcQ(struct list_head *head);
-void insertProcQ(struct list_head *head, pcb_t *p);
-pcb_t *headProcQ(struct list_head *head);
+/* Controllo se la lista passata come parametro ha figli o meno e restituisco true in caso non ne abbia */ 
+int emptyChild(pcb_t *this){
+	return (list_empty(this->p_child);
+}
 
-pcb_t *removeProcQ(struct list_head *head);
-pcb_t *outProcQ(struct list_head *head, pcb_t *p);
+void insertChild(pcb_t *prnt, pcb_t *p){
+	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
+	list_add_tail(&(p->p_next), &(prnt->p_child));
+	
+	/* Collego il figlio con il padre tramite il puntatore *p_parent */
+	p->p_parent = prnt;
+}
 
+pcb_t *removeChild(pcb_t *p){
+	
+	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
+	if (list_empty(p->p_child)){
+		return NULL;
+	}else{
+		/* Se la lista ha dei figli, rimuovo il primo della lista*/
+		list_del(&(p->p_child));
+		return p;
+		/* Non sono sicuro che funzioni chiamando solamente list_del()
+		* perchè la funzione oltre ad eliminare la list_head passata, collega anche la coda all'elemento precedente a quello rimosso 
+		* Il mio dubbio è: 
+		* 	- l'elemento precedente a quello rimosso esiste? se sì chi è?
+		* Dovrebbe essere il padre, seguendo lo schema nelle slide fatto da Davoli, ma non so se padre e figlio sono collegati tramite quel puntatore (e ne dubito, dato che ci sono dei puntatori specifici per collegarli).
+		*/
+		 
+	}
 
-/* Tree view functions */
-int emptyChild(pcb_t *this);
-void insertChild(pcb_t *prnt, pcb_t *p);
-pcb_t *removeChild(pcb_t *p);
+		
+}
 pcb_t *outChild(pcb_t *p);
