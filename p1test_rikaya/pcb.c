@@ -144,6 +144,7 @@ int emptyChild(pcb_t *this){
 	return (list_empty(this->p_child);
 }
 
+/* Inserisce il PCB puntato da p come figlio del PCB puntato da prnt */
 void insertChild(pcb_t *prnt, pcb_t *p){
 	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
 	list_add_tail(&(p->p_next), &(prnt->p_child));
@@ -152,6 +153,7 @@ void insertChild(pcb_t *prnt, pcb_t *p){
 	p->p_parent = prnt;
 }
 
+/* Rimuove il primo figlio del PCB puntato da p. Se non ha figli ritorna NULL */
 pcb_t *removeChild(pcb_t *p){
 	
 	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
