@@ -1,7 +1,6 @@
-#include <pcb.h>
-#include <const.h>
-#include <typer_rikaya.H>
-#include <listx.h>
+#include "types_rikaya.h"
+#include "const.h"
+#include "pcb.h"
 
 
 
@@ -11,19 +10,17 @@ LIST_HEAD(pcbFree_h);
 HIDDEN pcb_t pcbFree_table[MAXPROC];
 
 
+
 /* PCB free list handling functions */
 
 /* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. */
 /* Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. */
 void initPcbs(void){
-    int i=0;
-    for (i;i<MAXPROC;i++){
-        /* Metto nella lista pcbFree_h i puntatori ai pcb */
-        pcb_t* pcb= &pcbFree_table[MAXPROC];
-        list_add_tail(&(pcb.p_next),&(pcbFree_h))
-        ;
-
-    }
+	int i = 0;
+	for(; i < MAXPROC; i++){
+		pcb_t* pcb= &pcbFree_table[MAXPROC];
+		list_add_tail(&(pcb.p_next),&(pcbFree_h));
+	}
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
@@ -139,9 +136,41 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 }
 
 
+
 /* Tree view functions */
-int emptyChild(pcb_t *this);
-void insertChild(pcb_t *prnt, pcb_t *p);
-pcb_t *removeChild(pcb_t *p);
+
+/* Controllo se la lista passata come parametro ha figli o meno e restituisco true in caso non ne abbia */ 
+int emptyChild(pcb_t *this){
+	return (list_empty(this->p_child);
+}
+
+void insertChild(pcb_t *prnt, pcb_t *p){
+	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
+	list_add_tail(&(p->p_next), &(prnt->p_child));
+	
+	/* Collego il figlio con il padre tramite il puntatore *p_parent */
+	p->p_parent = prnt;
+}
+
+pcb_t *removeChild(pcb_t *p){
+	
+	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
+	if (list_empty(p->p_child)){
+		return NULL;
+	}else{
+		/* Se la lista ha dei figli, rimuovo il primo della lista*/
+		list_del(&(p->p_child));
+		return p;
+		/* Non sono sicuro che funzioni chiamando solamente list_del()
+		* perchè la funzione oltre ad eliminare la list_head passata, collega anche la coda all'elemento precedente a quello rimosso 
+		* Il mio dubbio è: 
+		* 	- l'elemento precedente a quello rimosso esiste? se sì chi è?
+		* Dovrebbe essere il padre, seguendo lo schema nelle slide fatto da Davoli, ma non so se padre e figlio sono collegati tramite quel puntatore (e ne dubito, dato che ci sono dei puntatori specifici per collegarli).
+		*/
+		 
+	}
+
+		
+}
 pcb_t *outChild(pcb_t *p);
 
