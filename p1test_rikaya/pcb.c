@@ -2,6 +2,7 @@
 #include "const.h"
 #include "pcb.h"
 
+
 HIDDEN pcb_t pcbFree_table[MAXPROC];
 
 /* Lista con sentinella dei pcb liberi o inutilizzati */
@@ -13,6 +14,7 @@ HIDDEN struct list_head pcbFree_h = LIST_HEAD_INIT(pcbFree_h);
 
 /* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. */
 /* Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. */
+
 HIDDEN void initPcbs(void){
 	int i = 0;
 	for(; i < MAXPROC; i++){
@@ -22,15 +24,18 @@ HIDDEN void initPcbs(void){
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
+
 HIDDEN void freePcb(pcb_t *p){
 	    list_add_tail(&(p->p_next), &(pcbFree_h));
 }
+
 
 
 /* Restituisce NULL se la pcbFree è vuota.                                 */
 /* Altrimenti rimuove un elemento dalla pcbFree,                          */
 /* inizializza tutti i campi (NULL\0) e restituisce l'elemento rimosso    */
 HIDDEN pcb_t *allocPcb(void){
+  
 	/* Controllo per verificare se pcbFree sia vuoto o no */
 	if (list_empty(&(pcbFree_h))) return NULL;
 	/* Elemento precedente alla sentinella è l'ultimo elemento della lista */
@@ -65,11 +70,14 @@ HIDDEN pcb_t *allocPcb(void){
  }
 
 /* PCB queue handling functions */
+
 HIDDEN void mkEmptyProcQ(struct list_head *head){
+
 	INIT_LIST_HEAD(head);
 }
 
 /* Controllo se la lista puntata da head è vuota e restituisco true in caso affermativo, false altrimenti */
+
 HIDDEN int emptyProcQ(struct list_head *head){
 	if (list_empty(head))
 		return TRUE;
@@ -79,24 +87,30 @@ HIDDEN int emptyProcQ(struct list_head *head){
 
 /* Inserisco un processo in coda alla lista, controllando che la priorità sia decrescente */
 HIDDEN void insertProcQ(struct list_head *head, pcb_t *p){
+
 	/* Uso un puntatore a pcb_t temporaneo per scorrere la lista */
 	pcb_t *tmp_pcb;
 	/* Uso la macro list_for_each_entry per poter scorrere la lista partendo dalla sentinella head */
 	list_for_each_entry(tmp_pcb, head, p_next){
 		if(p->priority > tmp_pcb->priority){
+
 			struct list_head *prev = list_prev(&(tmp_pcb->p_next));
 			__list_add(&(p->p_next), (prev), &(tmp_pcb->p_next)); /* Inserisco l'elemento p->next se la sua priorità è maggiore della priorità dell'elemento puntato da tmp_pcb */
+
 		}
 	}
 
 	/* Se la priorità di p non soddisfa la condizione dell'if, allora la sua priorità sarà minore di tutti gli altri elementi della lista e lo aggiungo in coda */
+
 	list_add_tail(&(p->p_next), (head));
+
 
 }
 
 
 /* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
 /* Ritorna NULL se la coda non ha elementi 					      */
+
 HIDDEN pcb_t *headProcQ(struct list_head *head){
 		/* Controllo iniziale per vedere se head è vuoto */
 		if (list_empty(head)) return NULL;		
@@ -106,6 +120,7 @@ HIDDEN pcb_t *headProcQ(struct list_head *head){
 
 /* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
 /* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
+
 HIDDEN pcb_t *removeProcQ(struct list_head *head){
 		/* Controllo iniziale per vedere se head è vuoto */
 		/* Se lista è vuota restituisco NULL */
@@ -116,10 +131,12 @@ HIDDEN pcb_t *removeProcQ(struct list_head *head){
 		pcb_t *tmp = container_of(head->next,pcb_t,p_next) ;	/* Puntatore al primo elemento della lista */
 		list_del(head->next);					/* Lo rimuovo dalla lista */
 		return tmp ;
+
 }
 
 /* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
 /* Se p non è presente nella coda, restituisce NULL	 		*/
+
 HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 		
 		/* Scorro la lista head alla ricerca di p */
@@ -130,6 +147,7 @@ HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 		if (p == i) {
 		list_del(&(i->p_next));					
 		return p;						
+
 		}
 	}
 	/* Ho finito di scorrere head e non ho trovato p */
@@ -140,6 +158,7 @@ HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 
 
 /* Tree view functions */
+
 
 /* Controllo se la lista passata come parametro ha figli o meno e restituisco TRUE in caso non ne abbia e FALSE altrimenti */ 
 HIDDEN int emptyChild(pcb_t *this){
@@ -156,6 +175,7 @@ HIDDEN void insertChild(pcb_t *prnt, pcb_t *p){
 	/* Collego il figlio con il padre tramite il puntatore *p_parent */
 	p->p_parent = prnt;
 }
+
 
 HIDDEN pcb_t *removeChild(pcb_t *p){
 	
@@ -193,3 +213,4 @@ HIDDEN pcb_t *outChild(pcb_t *p){
 	}
 }
 */
+
