@@ -24,7 +24,6 @@ HIDDEN void initPcbs(void){
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
-
 HIDDEN void freePcb(pcb_t *p){
 	    list_add_tail(&(p->p_next), &(pcbFree_h));
 }
@@ -77,7 +76,6 @@ HIDDEN void mkEmptyProcQ(struct list_head *head){
 }
 
 /* Controllo se la lista puntata da head è vuota e restituisco true in caso affermativo, false altrimenti */
-
 HIDDEN int emptyProcQ(struct list_head *head){
 	if (list_empty(head))
 		return TRUE;
@@ -110,7 +108,6 @@ HIDDEN void insertProcQ(struct list_head *head, pcb_t *p){
 
 /* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
 /* Ritorna NULL se la coda non ha elementi 					      */
-
 HIDDEN pcb_t *headProcQ(struct list_head *head){
 		/* Controllo iniziale per vedere se head è vuoto */
 		if (list_empty(head)) return NULL;		
@@ -120,7 +117,6 @@ HIDDEN pcb_t *headProcQ(struct list_head *head){
 
 /* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
 /* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
-
 HIDDEN pcb_t *removeProcQ(struct list_head *head){
 		/* Controllo iniziale per vedere se head è vuoto */
 		/* Se lista è vuota restituisco NULL */
@@ -136,7 +132,6 @@ HIDDEN pcb_t *removeProcQ(struct list_head *head){
 
 /* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
 /* Se p non è presente nella coda, restituisce NULL	 		*/
-
 HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 		
 		/* Scorro la lista head alla ricerca di p */
@@ -161,12 +156,16 @@ HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 
 
 /* Controllo se la lista passata come parametro ha figli o meno e restituisco TRUE in caso non ne abbia e FALSE altrimenti */ 
+
+/* Restituisce TRUE se il PCB puntato da p non ha figli */
+/* Restituisci FALSE altrimenti */
 HIDDEN int emptyChild(pcb_t *this){
 	if (list_empty(&(this->p_child))) 
 		return TRUE;
 	else 
 		return FALSE;
 }
+
 
 HIDDEN void insertChild(pcb_t *prnt, pcb_t *p){
 	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
