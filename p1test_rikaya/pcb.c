@@ -154,9 +154,6 @@ HIDDEN pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 
 /* Tree view functions */
 
-
-/* Controllo se la lista passata come parametro ha figli o meno e restituisco TRUE in caso non ne abbia e FALSE altrimenti */ 
-
 /* Restituisce TRUE se il PCB puntato da p non ha figli */
 /* Restituisci FALSE altrimenti */
 HIDDEN int emptyChild(pcb_t *this){
@@ -166,7 +163,7 @@ HIDDEN int emptyChild(pcb_t *this){
 		return FALSE;
 }
 
-
+/* Inserisce il PCB puntato da p come figlio del PCB puntato da prnt */
 HIDDEN void insertChild(pcb_t *prnt, pcb_t *p){
 	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
 	list_add_tail(&(p->p_next), &(prnt->p_child));
@@ -175,7 +172,7 @@ HIDDEN void insertChild(pcb_t *prnt, pcb_t *p){
 	p->p_parent = prnt;
 }
 
-
+/* Rimuove il primo figlio del PCB puntato da p. Se p non ha figli, restituisce NULL. */
 HIDDEN pcb_t *removeChild(pcb_t *p){
 	
 	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
@@ -196,6 +193,12 @@ HIDDEN pcb_t *removeChild(pcb_t *p){
 		return p;
 	}
 }
+
+/* Rimuove il PCB puntato da p dalla lista dei figli del padre. 		*/
+/* Se il PCB puntato da p non ha un padre, restituisce NULL.			*/
+/* Altrimenti restituisce l’elemento rimosso (cioè p). 				*/
+/* A differenza della removeChild, p può trovarsi in una posizione arbitraria   */
+/* (ossia non è necessariamente il primo figlio del padre). 			*/
 
 /*
 HIDDEN pcb_t *outChild(pcb_t *p){
