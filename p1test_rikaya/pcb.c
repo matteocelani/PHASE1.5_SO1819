@@ -18,7 +18,7 @@ HIDDEN struct list_head pcbFree_h = LIST_HEAD_INIT(pcbFree_h);
 HIDDEN void initPcbs(void){
 	int i = 0;
 	for(; i < MAXPROC; i++){
-		pcb_t* pcb= &pcbFree_table[MAXPROC];
+		pcb_t* pcb= &pcbFree_table[i];
 		list_add_tail(&(pcb->p_next),&(pcbFree_h));
 	}
 }
