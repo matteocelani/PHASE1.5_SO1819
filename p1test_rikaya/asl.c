@@ -41,7 +41,7 @@ semd_t* getSemd(int *key){
 	list_for_each_entry(p, semd_h, s_next){		
 		if( *key == p->s_key){
 		 res = container_of(semd_h->next , semd_t, s_next);
-	}
+	} 
 	return res; 
 }
 
@@ -54,23 +54,21 @@ In tutti gli altri casi, restituisce FALSE.*/
 
 
 int insertBlocked(int *key, pcb_t* p){
-	bool trovato = FALSE;
 	semd_t* semd =  getSemd(key);  //cerco semd con chiave key
-	if (semd != NULL){ 
-		trovato = TRUE; //semd cercato presente nella ASL
-		insertProcQ( &(semd->s_procQ) , p);	//inserisco PCB puntato da p
+	if (semd != NULL){ //vedo se semaforo cercato presente nella ASL
+		insertProcQ( &(semd->s_procQ) , p);	//inserisco PCB puntato da p nella coda del semaforo trovato
 		return FALSE;
 	}
-
-	if (list_empty(&(semdFree_h->s_next)) return TRUE;
+	//qui caso in cui il semaforo cercato non è presente nella ASL, allora provo ad allocarne uno dalla lista libera
+	if (list_empty(&(semdFree_h->s_next))) return TRUE; //verifico se questa è vuota, se così fosse ritorno TRUE
 	else { 
-		if (!trovato) list_add_tail(&(semdFree_h->s_next), &(semd_h->s_next) { //caso in cui non è presente nella ASL, allora lo prendo dalla lista libera
+		list_add_tail(&(semdFree_h->s_next), &(semd_h->s_next) { //Ok, la lista libera non è vuota, prendo da qui semaforo e lo inserisco nella ASL
 			semdFree_h -> s_key = *key; //imposto parametri key e s_procQ
 			semdFree_h -> s_procQ = p->s_procQ; 
+			return FALSE;
 		}
 	}
 }
-
 
 
 
@@ -82,7 +80,7 @@ pcb_t* outBlocked(pcb_t *p){
 	semd_t* semd = getSemd(p->p_semKey); //cerco semaforo con chiave uguale a quella indicata nel pcb
 	pcb_t* pcb = outProcQ(semd -> s_ProcQ, p); //rimuovo pcb puntato da p dalla coda dei processi bloccati
 	if (pcb == NULL) return NULL; // coda dei processi bloccati vuota, ritorno NULL
-	return p; 
+	return p; _
 }
 
 
@@ -152,7 +150,7 @@ pcb_t* headBlocked(int *key){
 		}
 	if (!trovato) return NULL //se invece il semaforo non è nella ASL ritorno NULL
 	}
-} VEDERE SE QUESTA VA BENE O MEGLIO QUELLA SOTTO (NON SAPEVO DELL'ESISTENZA DI HEADPROCQ)
+} VEDERE SE QUESTA VA BENE O MEGLIO QUELLA SOTTO (NON SAPEVO DELL'ESISTENZA DI HEAD_PROCQ)
 */
 
 pcb_t* headBlocked(int *key){
