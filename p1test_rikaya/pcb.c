@@ -22,6 +22,7 @@ void initPcbs(void){
 }
 
 /* Inserisce il pcb puntato da p nella lista dei PCB liberi */
+
 void freePcb(pcb_t *p){
 	    list_add_tail(&(p->p_next), &(pcbFree_h));
 }
@@ -72,6 +73,7 @@ void mkEmptyProcQ(struct list_head *head){
 }
 
 /* Controllo se la lista puntata da head è vuota e restituisco true in caso affermativo, false altrimenti */
+
 int emptyProcQ(struct list_head *head){
 	if (list_empty(head))
 		return TRUE;
@@ -99,7 +101,9 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 
 /* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
 /* Ritorna NULL se la coda non ha elementi 					      */
+
 pcb_t *headProcQ(struct list_head *head){
+
 		/* Controllo iniziale per vedere se head è vuoto */
 		if (list_empty(head)) return NULL;		
 		/* Devo restituire il primo elemento della lista head non vuota. */	
@@ -108,7 +112,9 @@ pcb_t *headProcQ(struct list_head *head){
 
 /* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
 /* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
+
 pcb_t *removeProcQ(struct list_head *head){
+
 		/* Controllo iniziale per vedere se head è vuoto */
 		/* Se lista è vuota restituisco NULL */
 		if (list_empty(head)) return NULL; 
@@ -122,6 +128,7 @@ pcb_t *removeProcQ(struct list_head *head){
 
 /* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
 /* Se p non è presente nella coda, restituisce NULL	 		*/
+
 pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 		
 		/* Scorro la lista head alla ricerca di p */
@@ -143,6 +150,7 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 
 /* Tree view functions */
 
+
 /* Controllo se la lista passata come parametro ha figli o meno e restituisco TRUE in caso non ne abbia e FALSE altrimenti */ 
 int emptyChild(pcb_t *this){
 	if (list_empty(&(this->p_child))) 
@@ -151,7 +159,10 @@ int emptyChild(pcb_t *this){
 		return FALSE;
 }
 
+
+/* Inserisce il PCB puntato da p come figlio del PCB puntato da prnt */
 void insertChild(pcb_t *prnt, pcb_t *p){
+
 	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
 	list_add_tail(&(p->p_next), &(prnt->p_child));
 	
@@ -159,8 +170,10 @@ void insertChild(pcb_t *prnt, pcb_t *p){
 	p->p_parent = prnt;
 }
 
+
 /* Rimuove il primo figlio del PCB puntato da p. Se p non ha figli, restituisce NULL */
 pcb_t *removeChild(pcb_t *p){
+
 	
 	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
 	if (list_empty(&(p->p_child))){
@@ -181,10 +194,12 @@ pcb_t *removeChild(pcb_t *p){
 	}
 }
 
+
 /* Rimuove il PCB puntato da p dalla lista dei figli del padre. Se il PCB puntato da p non ha un padre, restituisce NULL. Altrimenti restituisce l’elemento rimosso (cioè p). A differenza della removeChild, p può trovarsi in una posizione arbitraria */
 
 pcb_t *outChild(pcb_t *p){
 	/* Controllo se p ha un padre e restituisco NULL in caso negativo */
+
 	if(p->p_parent == NULL)
 		return NULL;
 	else{

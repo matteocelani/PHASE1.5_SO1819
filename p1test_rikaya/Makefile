@@ -15,7 +15,7 @@ endif
 UMPS2_DATA_DIR = $(UMPS2_DIR_PREFIX)/share/umps2
 UMPS2_INCLUDE_DIR = $(UMPS2_DIR_PREFIX)/include/umps2
 
-CFLAGS_LANG = -ffreestanding -ansi
+CFLAGS_LANG = -ffreestanding 
 CFLAGS_MIPS = -mips1 -mabi=32 -mno-gpopt -G 0 -mno-abicalls -fno-pic -mfp32
 CFLAGS = $(CFLAGS_LANG) $(CFLAGS_MIPS) -I$(UMPS2_INCLUDE_DIR) -Wall -O0
 
@@ -30,11 +30,11 @@ all : kernel.core.umps
 kernel.core.umps : kernel
 	umps2-elf2umps -k $<
 
-kernel : asl.h const.h listx.h p1test_rikayyya_v0.h pcb.h types_rikaya.h crtso.o libumps.o
+kernel : asl.o p1test_rikaya_v0.o pcb.o  crtso.o libumps.o
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 clean :
 	-rm -f *.o kernel kernel.*.umps
 
 %.o : %.S
-	$(CC) $(CFLAGS) -c -o $@ $<
+        $(CC) $(CFLAGS) -c -o $@ $<
