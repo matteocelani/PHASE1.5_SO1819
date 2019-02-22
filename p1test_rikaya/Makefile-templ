@@ -30,7 +30,7 @@ all : kernel.core.umps
 kernel.core.umps : kernel
 	umps2-elf2umps -k $<
 
-kernel : asl.h const.h listx.h p1test_rikayyya_v0.h pcb.h types_rikaya.h crtso.o libumps.o
+kernel : asl.o p1test_rikaya_v0.o pcb.o  crtso.o libumps.o
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 clean :
