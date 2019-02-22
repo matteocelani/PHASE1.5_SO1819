@@ -37,4 +37,4 @@ clean :
 	-rm -f *.o kernel kernel.*.umps
 
 %.o : %.S
-$(CC) $(CFLAGS) -c -o $@ $<
+        $(CC) $(CFLAGS) -c -o $@ $<
