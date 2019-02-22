@@ -21,10 +21,11 @@ HIDDEN LIST_HEAD(semd_h);
 
 void initASL (void) {
 	int i=0;
-	
 	for (i;i<MAXPROC;i++){
-		semd_t* semt= &semd_table[i];
-		list_add_tail((semt),&(semdFree_h));
+		/* semd_t* semt= &semd_table[i];
+		list_add_tail((semt),&(semdFree_h));*/
+		
+		list_add_tail( &(semd_table[i]), &(semdFree_h));
 	}
 }
 
@@ -34,7 +35,7 @@ restituisce il puntatore al SEMD nella ASL la cui chiave è pari a key. Se non
 esiste un elemento nella ASL con chiave eguale a key, viene restituito NULL. */
 
 semd_t* getSemd(int *key){
-	if (semd_h) == NULL return NULL;
+	if (semd_h == NULL) return NULL;
 	if (list_empty(&(semd_h->s_next)) return NULL; 		
 	semd_t* p; 
 	semd_t* res = NULL;
