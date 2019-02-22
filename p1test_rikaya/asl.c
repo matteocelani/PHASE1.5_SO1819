@@ -34,8 +34,8 @@ restituisce il puntatore al SEMD nella ASL la cui chiave è pari a key. Se non
 esiste un elemento nella ASL con chiave eguale a key, viene restituito NULL. */
 
 semd_t* getSemd(int *key){
-
-	if (list_empty((semd_h)) return NULL; 		
+	if (semd_h) == NULL return NULL;
+	if (list_empty(&(semd_h->s_next)) return NULL; 		
 	semd_t* p; 
 	semd_t* res = NULL;
 	list_for_each_entry(p, semd_h, s_next){		
