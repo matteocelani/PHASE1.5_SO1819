@@ -2,7 +2,8 @@
 Fase 1 del progetto per il corso Sistemi Operativi 18/19 UniBO 
 
 Implementazione delle strutture dati e relative funzioni per la gestione delle code
-
+ 
+Per la gestione delle liste 
 
 ## Compilare per μMPS2
 Per compilare i file in src è necessario avere prima installato [μMPS2](https://github.com/tjonjic/umps).
