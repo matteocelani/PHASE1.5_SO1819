@@ -24,7 +24,7 @@ void initASL (void) {
 	
 	for (i;i<MAXPROC;i++){
 		semd_t* semt= &semd_table[i];
-		list_add_tail((semt->s_next),&(semdFree_h));
+		list_add_tail((semt),&(semdFree_h));
 	}
 }
 
