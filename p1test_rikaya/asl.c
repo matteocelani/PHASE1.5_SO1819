@@ -35,8 +35,8 @@ restituisce il puntatore al SEMD nella ASL la cui chiave è pari a key. Se non
 esiste un elemento nella ASL con chiave eguale a key, viene restituito NULL. */
 
 semd_t* getSemd(int *key){
-	if (semd_h == NULL) return NULL;
-	if (list_empty(&(semd_h->s_next)) return NULL; 		
+	
+	if (list_empty(semd_h)) return NULL;
 	semd_t* p; 
 	semd_t* res = NULL;
 	list_for_each_entry(p, semd_h, s_next){		
@@ -58,11 +58,11 @@ In tutti gli altri casi, restituisce FALSE.*/
 int insertBlocked(int *key, pcb_t* p){
 	semd_t* semd =  getSemd(key);  //cerco semd con chiave key
 	if (semd != NULL){ //vedo se semaforo cercato presente nella ASL
-		insertProcQ( (semd->s_procQ) , p);	//inserisco PCB puntato da p nella coda del semaforo trovato
+		insertProcQ(&(semd->s_procQ) , p);	//inserisco PCB puntato da p nella coda del semaforo trovato
 		return FALSE;
 	}
 	//qui caso in cui il semaforo cercato non è presente nella ASL, allora provo ad allocarne uno dalla lista libera
-	if (list_empty(&(semdFree_h->s_next))) return TRUE; //verifico se questa è vuota, se così fosse ritorno TRUE
+	if (list_empty(&(semdFree_h))) return TRUE; //verifico se questa è vuota, se così fosse ritorno TRUE
 	else { 
 		
 		list_add_tail(&(semdFree_h->s_next), &(semd_h->s_next)) { //Ok, la lista libera non è vuota, prendo da qui semaforo e lo inserisco nella ASL
