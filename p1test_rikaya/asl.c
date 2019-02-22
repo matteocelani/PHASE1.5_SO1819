@@ -24,7 +24,7 @@ void initASL () {
   for (i;i<MAXPROC;i++){
 
     semd_t* semt= &semd_table[i];
-        list_add_tail(&(semt.s_next),&(semdFree_h));
+    list_add_tail(&(semt.s_next),&(semdFree_h));
   }
 }
 
@@ -35,12 +35,13 @@ esiste un elemento nella ASL con chiave eguale a key, viene restituito NULL. */
 
 semd_t* getSemd(int *key){
 
-	if (list_empty(&(semd_h->s_next)) return NULL; 		
+	if (list_empty(&(semd_h->s_next))) return NULL; 		
 	semd_t* p; 
 	semd_t* res = NULL;
 	list_for_each_entry(p, semd_h, s_next){		
-		if( *key == p->s_key){
-		 res = container_of(semd_h->next , semd_t, s_next);
+		if(  *key == p->s_key){
+			res = container_of(semd_h->s_next , semd_t, s_next);
+		}
 	} 
 	return res; 
 }
@@ -62,7 +63,7 @@ int insertBlocked(int *key, pcb_t* p){
 	//qui caso in cui il semaforo cercato non è presente nella ASL, allora provo ad allocarne uno dalla lista libera
 	if (list_empty(&(semdFree_h->s_next))) return TRUE; //verifico se questa è vuota, se così fosse ritorno TRUE
 	else { 
-		list_add_tail(&(semdFree_h->s_next), &(semd_h->s_next) { //Ok, la lista libera non è vuota, prendo da qui semaforo e lo inserisco nella ASL
+		list_add_tail(&(semdFree_h->s_next), &(semd_h->s_next)) { //Ok, la lista libera non è vuota, prendo da qui semaforo e lo inserisco nella ASL
 			semdFree_h -> s_key = *key; //imposto parametri key e s_procQ
 			semdFree_h -> s_procQ = p->s_procQ; 
 			return FALSE;
