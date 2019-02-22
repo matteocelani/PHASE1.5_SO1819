@@ -1,6 +1,7 @@
 #include "listx.h"
 #include "types_rikaya.h"
 #include "const.h"
+#include "asl.h"
 
 /* array di semd con dimensione massima MAX PROC*/
 HIDDEN semd_t semd_table[MAX_PROC];
