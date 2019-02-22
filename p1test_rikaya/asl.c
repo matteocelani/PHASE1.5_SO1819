@@ -4,7 +4,7 @@
 #include "asl.h"
 
 /* array di semd con dimensione massima MAX PROC*/
-HIDDEN semd_t semd_table[MAX_PROC];
+HIDDEN semd_t semd_table[MAXPROC];
 
 /*lista dei semd liberi o inutilizzati*/
 /*HIDDEN struct list_head semdFree = LIST_HEAD_INIT(semdFree);
@@ -21,9 +21,9 @@ HIDDEN LIST_HEAD(semd_h);
 void initASL () {
   int i=0;
 
-  for (i;i<=MAX_PROC;i++){
+  for (i;i<MAXPROC;i++){
 
-    semd_t* semt= &semd_table[MAX_PROC];
+    semd_t* semt= &semd_table[i];
         list_add_tail(&(semt.s_next),&(semdFree_h));
   }
 }
@@ -53,7 +53,7 @@ un nuovo SEMD perché la lista di quelli liberi è vuota, restituisce TRUE.
 In tutti gli altri casi, restituisce FALSE.*/
 
 
-/*int insertBlocked(int *key, pcb_t* p){
+int insertBlocked(int *key, pcb_t* p){
 	
 	semd_t* semd =  getSemd(key); 
 	if (semd != NULL){
@@ -61,7 +61,8 @@ In tutti gli altri casi, restituisce FALSE.*/
 		return FALSE;
 	}
 
-}*/
+
+}
 
 
 
