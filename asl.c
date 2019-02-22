@@ -79,14 +79,10 @@ DESCRIZIONE: Rimuove il PCB puntato da p dalla coda del semaforo
 su cui è bloccato (indicato da p- >p_semKey). Se il PCB non compare in tale coda, 
 allora restituisce NULL (condizione di errore). Altrimenti, restituisce p. */
 pcb_t* outBlocked(pcb_t *p){
-	semd_t* semd;
-	bool trovato = FALSE;
-	list_for_each(semd, semd_h){
-		if (semd->s_key == p->p_semKey) list_del(p);
-		trovato = TRUE;
-	}
-	if (!trovato) return NULL;
-	else return p;
+	semd_t* semd = getSemd(p->p_semKey); //cerco semaforo con chiave uguale a quella indicata nel pcb
+	pcb_t* pcb = outProcQ(semd -> s_ProcQ, p); //rimuovo pcb puntato da p dalla coda dei processi bloccati
+	if (pcb == NULL) return NULL; // coda dei processi bloccati vuota, ritorno NULL
+	return p; 
 }
 
 
@@ -117,20 +113,23 @@ pcb_t* removeBlocked(int *key){
 
 	if (!trovato) return NULL //se invece il semaforo non è nella ASL ritorno NULL
 	}
-}*/
+}
+VEDERE SE QUESTA VA BENE O MEGLIO QUELLA SOTTO (NON SAPEVO DELL'ESISTENZA DI remove_procQ)
+*/
 
 
 pcb_t* removeBlocked(int *key){
-		semd_t* semd = getSemd(&key);
+		semd_t* semd = getSemd(&key); //cerco semd con chiave key
 		if (semd == NULL) return NULL; //Semd non è presente nella ASL
 		pcb_t* pcb = headProcQ(semd -> s_procQ);
 		if (pcb == NULL) ; //coda dei processi bloccati vuota
-		else removeProcQ(semd->s_procQ);
+		else pcb = removeProcQ(semd->s_procQ);
 		if (list_empty(semd->s_ProcQ)){
 			list_del(semd); //tolgo semd dalla ASL
 			list_add_tail(semd, semdFree_h);	//metto semd in coda alla lista libera
 		}
 		return pcb;
+}
 /* 
 DESCRIZIONE: Restituisce (senza rimuovere) il puntatore al PCB 
 che si trova in testa alla coda dei processi associata al SEMD con chiave key. 
