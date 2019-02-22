@@ -2,6 +2,7 @@
 #include "types_rikaya.h"
 #include "const.h"
 #include "asl.h"
+#include "pcb.h"
 
 /* array di semd con dimensione massima MAX PROC*/
 HIDDEN semd_t semd_table[MAXPROC];
@@ -23,7 +24,7 @@ void initASL (void) {
 	
 	for (i;i<MAXPROC;i++){
 		semd_t* semt= &semd_table[i];
-		list_add_tail(&(semt.s_next),&(semdFree_h));
+		list_add_tail(&(semt->s_next),&(semdFree_h));
 	}
 }
 
