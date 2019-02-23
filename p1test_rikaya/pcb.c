@@ -85,18 +85,15 @@ int emptyProcQ(struct list_head *head){
 
 /* Inserisco un processo in coda alla lista, controllando che la priorità sia decrescente */
 void insertProcQ(struct list_head *head, pcb_t *p){
-	/* Uso un puntatore a pcb_t temporaneo per scorrere la lista */
-	pcb_t *tmp_pcb;
-	/* Uso la macro list_for_each_entry per poter scorrere la lista partendo dalla sentinella head */
-	list_for_each_entry(tmp_pcb, head, p_next){
-		if(p->priority > tmp_pcb->priority){
-			struct list_head *prev = list_prev(&(tmp_pcb->p_next));
-			__list_add(&(p->p_next), (prev), &(tmp_pcb->p_next)); /* Inserisco l'elemento p->next se la sua priorità è maggiore della priorità dell'elemento puntato da tmp_pcb */
+	pcb_t *tmp;
+	
+	list_for_each_entry(tmp, head, p_next){
+		if (p->priority > tmp->priority){
+			list_add_tail(&(p->p_next), &(tmp->p_next));
+			return;
 		}
 	}
-
-	/* Se la priorità di p non soddisfa la condizione dell'if, allora la sua priorità sarà minore di tutti gli altri elementi della lista e lo aggiungo in coda */
-	list_add_tail(&(p->p_next), (head));
+	list_add_tail(&(p->p_next), head);
 
 }
 
