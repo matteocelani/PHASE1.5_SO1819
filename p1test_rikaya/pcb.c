@@ -142,9 +142,10 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 	pcb_t *tmp;	
 	list_for_each(tmp, head){
 	/* Se p=tmp, allora rimuovo p dalla lista e lo restituisco */
-		if (container_of(tmp,pcb_t,p_next) == p){
-			list_del(tmp);			
-			return p;						
+	list_for_each_entry(tmp, head, p_next){
+		if (p == tmp) {	//Ho trovato p in head: lo rimuovo e lo restituisco
+			list_del((i->p_next));
+			return p;
 		}
 	}
 	/* Ho finito di scorrere head e non ho trovato p */
