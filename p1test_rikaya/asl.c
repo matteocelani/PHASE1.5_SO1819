@@ -65,6 +65,7 @@ int insertBlocked(int *key, pcb_t* p){
 	if (list_empty(&(semdFree_h))) return TRUE; //verifico se questa è vuota, se così fosse ritorno TRUE
 	else { 
 		
+
 		list_add_tail(&semdFree_h, &semd_h); //Ok, la lista libera non è vuota, prendo da qui semaforo e lo inserisco nella ASL
 			semd->s_key = key; //imposto parametri key e s_procQ
 			semd->s_procQ = p->p_next; 
@@ -161,6 +162,54 @@ pcb_t* headBlocked(int *key){
 
 pcb_t* headBlocked(int *key){
 	semd_t* semd = getSemd(key);
+	if (semd == NULL) return NULL; //Semd non è presente nella ASL
+	pcb_t* pcb = headProcQ(&(semd -> s_procQ));
+	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
+	return pcb;
+}
+
+pcb_t* removeBlocked(int *key){
+	semd_t *semd = getSemd(&key); //cerco semd con chiave key
+	
+	if (semd == NULL) return NULL; //Semd non è presente nella ASL
+	
+	pcb_t *pcb = headProcQ(&(semd -> s_procQ));
+	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
+	
+	pcb = removeProcQ(&(semd->s_procQ));
+	if (list_empty(&(semd->s_procQ))){
+		list_del(semd); //tolgo semd dalla ASL
+		list_add_tail(&(semd->s_next), &semdFree_h);	//metto semd in coda alla lista libera
+	}
+	return pcb;
+}
+/* 
+DESCRIZIONE: Restituisce (senza rimuovere) il puntatore al PCB 
+che si trova in testa alla coda dei processi associata al SEMD con chiave key. 
+Ritorna NULL se il SEMD non compare nella ASL oppure se compare ma la sua coda 
+dei processi è vuota.
+
+pcb_t* headBlocked(int *key){
+		semd_t* semd;
+	bool trovato = FALSE;
+	list_for_each(semd, semd_h){ //cerco il semaforo nella ASL
+		if (semd->s_key == key)  {
+			trovato = TRUE; //trovato
+			if (list_empty(semd->s_ProcQ)){//verifico che la coda dei processi bloccati non sia vuota
+				list_del(semd); //tolgo semd dalla ASL
+				list_add_tail(semd, semdFree_h);	//metto semd in coda alla lista libera
+				return NULL;
+			} else {
+				return container_of(semd, semd_t, s_ProcQ); //ritorno primo PCB 
+			}	
+		}
+	if (!trovato) return NULL //se invece il semaforo non è nella ASL ritorno NULL
+	}
+} VEDERE SE QUESTA VA BENE O MEGLIO QUELLA SOTTO (NON SAPEVO DELL'ESISTENZA DI HEAD_PROCQ)
+*/
+
+pcb_t* headBlocked(int *key){
+	semd_t* semd = getSemd(&key);
 	if (semd == NULL) return NULL; //Semd non è presente nella ASL
 	pcb_t* pcb = headProcQ(&(semd -> s_procQ));
 	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
