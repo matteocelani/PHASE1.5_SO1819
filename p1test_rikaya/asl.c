@@ -160,29 +160,7 @@ pcb_t* headBlocked(int *key){
 } VEDERE SE QUESTA VA BENE O MEGLIO QUELLA SOTTO (NON SAPEVO DELL'ESISTENZA DI HEAD_PROCQ)
 */
 
-pcb_t* headBlocked(int *key){
-	semd_t* semd = getSemd(key);
-	if (semd == NULL) return NULL; //Semd non è presente nella ASL
-	pcb_t* pcb = headProcQ(&(semd -> s_procQ));
-	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
-	return pcb;
-}
 
-pcb_t* removeBlocked(int *key){
-	semd_t *semd = getSemd(&key); //cerco semd con chiave key
-	
-	if (semd == NULL) return NULL; //Semd non è presente nella ASL
-	
-	pcb_t *pcb = headProcQ(&(semd -> s_procQ));
-	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
-	
-	pcb = removeProcQ(&(semd->s_procQ));
-	if (list_empty(&(semd->s_procQ))){
-		list_del(semd); //tolgo semd dalla ASL
-		list_add_tail(&(semd->s_next), &semdFree_h);	//metto semd in coda alla lista libera
-	}
-	return pcb;
-}
 /* 
 DESCRIZIONE: Restituisce (senza rimuovere) il puntatore al PCB 
 che si trova in testa alla coda dei processi associata al SEMD con chiave key. 
