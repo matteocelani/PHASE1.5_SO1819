@@ -140,11 +140,11 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 	/* Scorro la lista head alla ricerca di p */
 	/* Puntatore che uso per confrontare gli elementi della coda con p */
 	pcb_t *tmp;	
-	list_for_each(tmp, head){
+	
 	/* Se p=tmp, allora rimuovo p dalla lista e lo restituisco */
 	list_for_each_entry(tmp, head, p_next){
 		if (p == tmp) {	//Ho trovato p in head: lo rimuovo e lo restituisco
-			list_del((i->p_next));
+			list_del((tmp->p_next));
 			return p;
 		}
 	}
