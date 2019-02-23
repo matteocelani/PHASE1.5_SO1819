@@ -143,7 +143,7 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 	
 	/* Se p=tmp, allora rimuovo p dalla coda e lo restituisco */
 	list_for_each_entry(tmp, head, p_next){
-		if ((container_of(p, pcb_t, p_next))== tmp) {	
+		if ((container_of(tmp, pcb_t, p_next))== p) {	
 			/* p trovato, lo rimuovo da head */ 
 			list_del(tmp);
 			return p;
