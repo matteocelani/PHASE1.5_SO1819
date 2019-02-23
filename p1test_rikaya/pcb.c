@@ -134,14 +134,16 @@ pcb_t *removeProcQ(struct list_head *head){
 */
 
 pcb_t *outProcQ(struct list_head *head, pcb_t *p){
-		
+	
+	if (emptyProcQ(head)) return NULL;
+	
 	/* Scorro la lista head alla ricerca di p */
 	/* Puntatore che uso per confrontare gli elementi della coda con p */
 	pcb_t *tmp;	
-	list_for_each_entry(tmp, head, p_next){
+	list_for_each(tmp, head){
 	/* Se p=tmp, allora rimuovo p dalla lista e lo restituisco */
-		if (p == tmp) {
-			list_del(&(tmp->p_next));			
+		if (container_of(tmp,pcb_t,p_next) == p){
+			list_del(tmp);			
 			return p;						
 		}
 	}
