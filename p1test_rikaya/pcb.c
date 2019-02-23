@@ -141,7 +141,7 @@ pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 	/* Puntatore che uso per confrontare gli elementi della coda con p */
 	pcb_t *tmp;	
 	
-	/* Se p=tmp, allora rimuovo p dalla lista e lo restituisco */
+	/* Se p=tmp, allora rimuovo p dalla coda e lo restituisco */
 	list_for_each_entry(tmp, head, p_next){
 		if (p == tmp) {	
 			/* p trovato, lo rimuovo da head */ 
