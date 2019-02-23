@@ -80,7 +80,7 @@ DESCRIZIONE: Rimuove il PCB puntato da p dalla coda del semaforo
 su cui è bloccato (indicato da p- >p_semKey). Se il PCB non compare in tale coda, 
 allora restituisce NULL (condizione di errore). Altrimenti, restituisce p. */
 pcb_t* outBlocked(pcb_t *p){
-	semd_t* semd = getSemd(p->p_semKey); //cerco semaforo con chiave uguale a quella indicata nel pcb
+	semd_t* semd = getSemd(p->p_semkey); //cerco semaforo con chiave uguale a quella indicata nel pcb
 	pcb_t* pcb = outProcQ(&(semd -> s_procQ), p); //rimuovo pcb puntato da p dalla coda dei processi bloccati
 	if (pcb == NULL) return NULL; // coda dei processi bloccati vuota, ritorno NULL
 	return p;
@@ -128,9 +128,9 @@ pcb_t* removeBlocked(int *key){
 	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
 	
 	pcb = removeProcQ(&(semd->s_procQ));
-	if (list_empty(semd->s_procQ)){
+	if (list_empty(&(semd->s_procQ))){
 		list_del(semd); //tolgo semd dalla ASL
-		list_add_tail(&(semd->s_next), semdFree_h);	//metto semd in coda alla lista libera
+		list_add_tail(&(semd->s_next), &semdFree_h);	//metto semd in coda alla lista libera
 	}
 	return pcb;
 }
