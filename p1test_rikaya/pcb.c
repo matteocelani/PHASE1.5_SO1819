@@ -3,16 +3,15 @@
 #include "pcb.h"
 
 HIDDEN pcb_t pcbFree_table[MAXPROC];
-
-/* Lista con sentinella dei pcb liberi o inutilizzati */
-HIDDEN LIST_HEAD(pcbFree_h);
+HIDDEN LIST_HEAD(pcbFree_h); 		/* Lista con sentinella dei pcb liberi o inutilizzati */
 
 
 
 /* PCB free list handling functions */
 
-/* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. */
-/* Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. */
+/* Inizializza la pcbFree in modo da contenere tutti gli elementi della pcbFree_table. 
+ * Questo metodo deve essere chiamato una volta sola in fase di inizializzazione della struttura dati. 
+*/
 void initPcbs(void){
 	int i = 0;
 	for(; i < MAXPROC; i++){
@@ -28,14 +27,17 @@ void freePcb(pcb_t *p){
 }
 
 
-/* Restituisce NULL se la pcbFree è vuota.                                 */
-/* Altrimenti rimuove un elemento dalla pcbFree,                          */
-/* inizializza tutti i campi (NULL\0) e restituisce l'elemento rimosso    */
+/* Restituisce NULL se la pcbFree è vuota.                                 
+ * Altrimenti rimuove un elemento dalla pcbFree,                          
+ * inizializza tutti i campi (NULL\0) e restituisce l'elemento rimosso    
+*/
 pcb_t *allocPcb(void){
 	/* Controllo per verificare se pcbFree sia vuoto o no */
 	if (list_empty(&(pcbFree_h))) return NULL;
-	/* Elemento precedente alla sentinella è l'ultimo elemento della lista */
-	/* */
+	
+	/* Elemento precedente alla sentinella è l'ultimo elemento della lista 
+	 * Salvo il puntatore del PCB da puntare 
+	*/
 	pcb_t *tmp=container_of(pcbFree_h.prev, pcb_t, p_next);
 					       
 	/* Rimuove tmp dalla lista pcbFree_H che lo contiene */
@@ -110,8 +112,9 @@ pcb_t *headProcQ(struct list_head *head){
 		return (container_of(head->next, pcb_t, p_next)); 
 }
 
-/* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. */
-/* Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       */
+/* Rimuove il primo elemento dalla coda dei processi puntata da head. Ritorna NULL se la coda è vuota. 
+ * Altrimenti ritorna il puntatore all'elemento rimosso dalla lista 				       
+*/
 
 pcb_t *removeProcQ(struct list_head *head){
 
@@ -126,8 +129,9 @@ pcb_t *removeProcQ(struct list_head *head){
 		return tmp ;
 }
 
-/* Rimuove il PCB puntato da p dalla coda dei processi puntata da head  */
-/* Se p non è presente nella coda, restituisce NULL	 		*/
+/* Rimuove il PCB puntato da p dalla coda dei processi puntata da head 
+ * Se p non è presente nella coda, restituisce NULL	 		
+*/
 
 pcb_t *outProcQ(struct list_head *head, pcb_t *p){
 		
@@ -188,18 +192,24 @@ pcb_t *removeChild(pcb_t *p){
 			 * e imposto il secondo figlio come primo */
 			struct list_head *tmp_child = list_next(&(p->p_child.next));
 			list_del(&(p->p_child.next));
-			p->p_child.next = *tmp_child;
+			p->p_child.next = tmp_child;
 		}
 		return p;
 	}
 }
 
 
-/* Rimuove il PCB puntato da p dalla lista dei figli del padre. Se il PCB puntato da p non ha un padre, restituisce NULL. Altrimenti restituisce l’elemento rimosso (cioè p). A differenza della removeChild, p può trovarsi in una posizione arbitraria */
+/* Rimuove il PCB puntato da p dalla lista dei figli del padre. 
+ * Se il PCB puntato da p non ha un padre, restituisce NULL. 
+ * Altrimenti restituisce l’elemento rimosso (cioè p). 
+ * A differenza della removeChild, p può trovarsi in una posizione arbitraria 
+*/
 
 pcb_t *outChild(pcb_t *p){
 	/* Controllo se p ha un padre e restituisco NULL in caso negativo */
-
+        
+	
+	/*   
 	if(p->p_parent == NULL)
 		return NULL;
 	else{
@@ -207,13 +217,13 @@ pcb_t *outChild(pcb_t *p){
 		/* Il padre esiste
 		 * controllo la lista dei figli
 		 * se p è il primo figlio lo elimino solamente, dato che non ha fratelli */
-		if(list_is_last(&(p->p_parent->p_child), &(p->p_parent->p_child.next)))
+		/*if(list_is_last(&(p->p_parent->p_child), &(p->p_parent->p_child.next)))
 			list_del(&(p->p_parent->p->child.next));
 		else {
 
 			/* p non è figlio unico
 			 * controllo la sua posizione iterando sulla lista */
-			pcb_t *i;
+		/*	pcb_t *i;
 			list_for_each_entry(i, p->p_parent->p_child, p->p_sib){
 
 			       if (i == p){
@@ -222,7 +232,7 @@ pcb_t *outChild(pcb_t *p){
 					*  - in caso affermativo lo elimino
 					*  - in caso negativo utilizzo una variabile temporanea per puntare al fratello,
 					*    elimino p e aggiungo il fratello di p al posto suo */
-					if(list_is_last(&(i->p_sib), &(i->p_sib.next)))
+				/*	if(list_is_last(&(i->p_sib), &(i->p_sib.next)))
 						list_del(&(i->p_next));
 					else{
 						struct list_head *tmp_child = list_next(&(i->p_sib));
@@ -233,5 +243,17 @@ pcb_t *outChild(pcb_t *p){
 			}
 			return p;
 	}
+	*/ 
+	if ((&(p->p_parent))== NULL) return NULL;
+        
+      
+        
+         /*elimino elemento dall'albero*/
+         list_del (&(p->p_sib));
+         p->p_parent = NULL;
+           /*restituisco elemento da rimuovere*/
+         return p;
+        
+	
 }
 
