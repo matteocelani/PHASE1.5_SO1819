@@ -81,9 +81,9 @@ su cui è bloccato (indicato da p- >p_semKey). Se il PCB non compare in tale cod
 allora restituisce NULL (condizione di errore). Altrimenti, restituisce p. */
 pcb_t* outBlocked(pcb_t *p){
 	semd_t* semd = getSemd(p->p_semKey); //cerco semaforo con chiave uguale a quella indicata nel pcb
-	pcb_t* pcb = outProcQ(semd -> s_ProcQ, p); //rimuovo pcb puntato da p dalla coda dei processi bloccati
+	pcb_t* pcb = outProcQ(&(semd -> s_procQ), p); //rimuovo pcb puntato da p dalla coda dei processi bloccati
 	if (pcb == NULL) return NULL; // coda dei processi bloccati vuota, ritorno NULL
-	return p; _
+	return p;
 }
 
 
@@ -124,13 +124,13 @@ pcb_t* removeBlocked(int *key){
 	
 	if (semd == NULL) return NULL; //Semd non è presente nella ASL
 	
-	pcb_t *pcb = headProcQ(semd -> s_procQ);
+	pcb_t *pcb = headProcQ(&(semd -> s_procQ));
 	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
 	
-	pcb = removeProcQ(semd->s_procQ);
-	if (list_empty(semd->s_ProcQ)){
+	pcb = removeProcQ(&(semd->s_procQ));
+	if (list_empty(semd->s_procQ)){
 		list_del(semd); //tolgo semd dalla ASL
-		list_add_tail(semd, semdFree_h);	//metto semd in coda alla lista libera
+		list_add_tail(&(semd->s_next), semdFree_h);	//metto semd in coda alla lista libera
 	}
 	return pcb;
 }
@@ -162,7 +162,7 @@ pcb_t* headBlocked(int *key){
 pcb_t* headBlocked(int *key){
 	semd_t* semd = getSemd(&key);
 	if (semd == NULL) return NULL; //Semd non è presente nella ASL
-	pcb_t* pcb = headProcQ(semd -> s_procQ);
+	pcb_t* pcb = headProcQ(&(semd -> s_procQ));
 	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
 	return pcb;
 }
