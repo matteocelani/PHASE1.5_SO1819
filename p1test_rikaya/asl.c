@@ -9,8 +9,6 @@
  *	   - Umberto Case		   	*
  *	   - Matteo Celani		   	*/
  
-
-
 #include "listx.h"
 #include "types_rikaya.h"
 #include "const.h"
