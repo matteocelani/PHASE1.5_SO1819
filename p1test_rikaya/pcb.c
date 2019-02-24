@@ -184,25 +184,33 @@ pcb_t *removeChild(pcb_t *p){
 	if (list_empty(&(p->p_child))){
 		return NULL;
 	}else{
-		/*
+		
+		/* estraggo l'indirizzo del primo concatenatore figlio */
+        struct list_head* firstChild = list_next(&(p->p_child));
+        /* estraggo l'indirizzo del contenitore del primo concatenatore */
+        pcb_t* firstPcb = container_of(firstChild, pcb_t, p_sib); 
+        /* elimino il puntatore al padre */
+        firstPcb->p_parent = NULL;
+        /* elimino il figlio dalla lista */
+        list_del(firstChild);	
+        /* restituisco il puntatore al figlio rimosso */
+		return firstPcb;
+	
+		
+		
 		/* Se la lista ha dei figli, controllo se ci sono uno o più figli*/
-	/*	if(list_is_last(&(p->p_child), &(p->p_child.next))){
-			/* Non ci sono fratelli, elimino il figlio unico */
-	/*		list_del(&(p->p_child.next));
-	/*	}else{
+		if(list_is_last(&(p->p_child), &(p->p_child.next))){
+			/* Non ci sono fratelli, elimino il figlio unico 
+			list_del(&(p->p_child.next));
+		}else{
 			/* Ci sono dei fratelli, elimino il prio figlio 
-			 * e imposto il secondo figlio come primo */
-	/*		struct list_head *tmp_child = list_next(&(p->p_child.next));
+			 * e imposto il secondo figlio come primo 
+			struct list_head *tmp_child = list_next(&(p->p_child.next));
 			list_del(&(p->p_child.next));
 			p->p_child.next = tmp_child;
 		}
 		return p;*/
 		
-		//Devo ricavarmi il pcb_t che contiene list_primofiglio:
-		pcb_t *primofiglio = container_of( list_next(&(p->p_child)) , pcb_t, p_sib); //Ho il pcb del primo figlio
-		list_del(&(primofiglio->p_sib)); //Elimino primofiglio dalla lista puntata da p_child: ovvero elimino p_sib dalla lista in cui è.
-		primofiglio->p_parent = NULL; //Aggiorno a NULL il campo p_parent di primofiglio
-		return primofiglio; //Restituisco il puntatore al primo figlio di p (che ho appena tolto dalla lista dei figli di p).
 	}
 }
 
