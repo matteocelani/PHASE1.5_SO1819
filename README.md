@@ -19,9 +19,10 @@ Verrano creati due file, kernel.core.umps e kernel.stab.umps, che sono i file da
 
 # Autori
  * Bartolucci Filippo
+ * Cerio Francesco
  * Case Umberto
  * Celani Matteo
- * Cerio Francesco
+
  
 # License 
 Progetto sotto GPLv3 License - vedere LICENSE.md per i dettagli
