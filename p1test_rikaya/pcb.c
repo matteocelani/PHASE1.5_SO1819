@@ -55,7 +55,7 @@ pcb_t *allocPcb(void){
 	/* Per il campo p_s.gpr[] uso un for per settare a 0 tutti le 29 variabili dell' array */
 	int j = 0;
 	for(;j<29;j++){
-		tmp->p_s.gpr[j];
+		tmp->p_s.gpr[j] = 0;
 	}	
 	tmp->p_s.hi = 0;
 	tmp->p_s.lo = 0;
@@ -89,7 +89,7 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 	
 	list_for_each_entry(tmp, head, p_next){
 		if (p->priority > tmp->priority){
-			list_add(&(p->p_next), tmp->p_next.prev); 
+			list_add_tail(&(p->p_next), &(tmp->p_next));
 			return;
 		}
 	}
@@ -98,9 +98,8 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 }
 
 
-/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. 
- * Ritorna NULL se la coda non ha elementi 					      
-*/
+/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
+/* Ritorna NULL se la coda non ha elementi 					      */
 
 pcb_t *headProcQ(struct list_head *head){
 
@@ -185,15 +184,18 @@ pcb_t *removeChild(pcb_t *p){
 		
 	/* Cerco il puntatore al primo figlio */
         struct list_head* firstChild = list_next(&(p->p_child));
-        pcb_t* firstPcb = container_of(firstChild, pcb_t, p_sib); 
+        pcb_t* firstPcb = container_of(firstChild, pcb_t, p_sib);
+
         /* Elimino il puntatore al padre */
         firstPcb->p_parent = NULL;
+
         /* Elimino il figlio dalla lista */
         list_del(firstChild);	
+
         /* Restituisco il figlio eliminato */
 	return firstPcb;
-	
 }
+
 
 
 /* Rimuove il PCB puntato da p dalla lista dei figli del padre. 
@@ -203,8 +205,7 @@ pcb_t *removeChild(pcb_t *p){
 */
 
 pcb_t *outChild(pcb_t *p){
-	/* Controllo se p ha un padre e restituisco NULL in caso negativo */
-	if ((&(p->p_parent))== NULL) return NULL;
+	if ((&(p->p_parent))== NULL) return NULL;  
          /*elimino elemento dall'albero*/
          list_del (&(p->p_sib));
          p->p_parent = NULL;
@@ -213,4 +214,3 @@ pcb_t *outChild(pcb_t *p){
         
 	
 }
-
