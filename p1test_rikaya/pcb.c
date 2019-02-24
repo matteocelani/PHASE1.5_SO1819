@@ -191,7 +191,7 @@ pcb_t *removeChild(pcb_t *p){
         list_del(firstChild);	
         /* Restituisco il figlio eliminato */
 	return firstPcb;
-	}
+	
 }
 
 
