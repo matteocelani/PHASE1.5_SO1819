@@ -34,12 +34,12 @@ esiste un elemento nella ASL con chiave eguale a key, viene restituito NULL. */
 
 semd_t* getSemd(int *key){
 	
-	/*if (list_empty(&semd_h)) return NULL; */
+	if (list_empty(&semd_h)) return NULL; 
 	semd_t* p; 
 	semd_t* res = NULL;
 	list_for_each_entry(p, &semd_h, s_next){		
 		if(p->s_key == key){
-			res = container_of(semd_h.next, semd_t, s_next);
+			res = s;
 		}
 	} 
 	return res; 
