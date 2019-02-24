@@ -207,9 +207,9 @@ pcb_t* headBlocked(int *key){
 
 pcb_t* headBlocked(int *key){
 	semd_t* semd = getSemd(&key);
+	if (list_empty(&semd->s_next)); //coda dei processi bloccati vuota
 	if (semd == NULL) return NULL; //Semd non è presente nella ASL
-	pcb_t* pcb = headProcQ(&(semd -> s_procQ));
-	if (pcb == NULL) return NULL; //coda dei processi bloccati vuota
+	pcb_t* pcb = container_of((semd -> s_procQ), pcb_t, p_next);
 	return pcb;
 }
 
