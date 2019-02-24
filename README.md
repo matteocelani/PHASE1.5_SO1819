@@ -2,9 +2,8 @@
 Fase 1 del progetto per il corso Sistemi Operativi 18/19 UniBO 
 
 # Progetto 
-Implementazione delle strutture dati e relative funzioni per la gestione delle code
-
 ![Alt text](/SchemaOS.png)
+Implementazione delle strutture dati e relative funzioni per la gestione delle code
 
 
 ## Compilare per μMPS2
