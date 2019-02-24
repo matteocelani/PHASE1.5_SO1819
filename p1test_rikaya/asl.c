@@ -39,7 +39,7 @@ semd_t* getSemd(int *key){
 	semd_t* res = NULL;
 	list_for_each_entry(p, &semd_h, s_next){		
 		if(p->s_key == key){
-			res = s;
+			res = p;
 		}
 	} 
 	return res; 
