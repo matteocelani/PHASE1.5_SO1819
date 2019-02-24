@@ -22,10 +22,8 @@ HIDDEN LIST_HEAD(semd_h);
 void initASL (void) {
 	int i=0;
 	for (;i<MAXPROC;i++){
-		semd_t* stmp= &semd_table[i];
+		semd_t* tmp= &semd_table[i];
 		list_add_tail(&(tmp->s_next),&(semdFree_h));
-		
-		/*list_add_tail(&semd_table[i], &semdFree_h);*/
 	}
 }
 
@@ -72,23 +70,23 @@ int insertBlocked(int *key, pcb_t* p){
 	
 	// Prendo un semaforo dalla lista dei semafori liberi
 	semd = container_of(semdFree_h.next, semd_t, s_next);
-	list_del(semdfree_h.next);
+	list_del(semdFree_h.next);
 	
 	INIT_LIST_HEAD(&semd->s_next);
 	INIT_LIST_HEAD(&semd->s_procQ);
 	insertProcQ(&semd->s_procQ, p);
-	semd->key=key;
+	semd->s_key=key;
 	
 	semd_t *i;
 	list_for_each_entry(i, &semd_h, s_next) {
-		if (s->s_key > i->s_key) {
-			list_add(&s->s_next, &i->s_next);
+		if (semd->s_key > i->s_key) {
+			list_add(&semd->s_next, &i->s_next);
 			p->p_semkey = key;
 			return FALSE;
 		}
 	}
 
-	list_add(&s->s_next, &semd_h);
+	list_add(&semd->s_next, &semd_h);
 	p->p_semkey = key;
 	return FALSE;
 	
