@@ -170,8 +170,7 @@ void insertChild(pcb_t *prnt, pcb_t *p){
 
 	/* Collego il figlio con il padre tramite il puntatore *p_parent */
 	p->p_parent = prnt;
-	
-	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
+	/* Aggiungo p in coda alla lista dei figli di prnt */
 	list_add_tail(&(p->p_sib), &(prnt->p_child));
 	
 }
@@ -179,39 +178,19 @@ void insertChild(pcb_t *prnt, pcb_t *p){
 
 /* Rimuove il primo figlio del PCB puntato da p. Se p non ha figli, restituisce NULL */
 pcb_t *removeChild(pcb_t *p){
-
 	
 	/*Controllo se il processo ha dei figlio e restituisco NUll in caso negativo */ 
-	if (list_empty(&(p->p_child))){
-		return NULL;
-	}else{
+	if (list_empty(&(p->p_child)))	return NULL;
 		
-		/* estraggo l'indirizzo del primo concatenatore figlio */
+	/* Cerco il puntatore al primo figlio */
         struct list_head* firstChild = list_next(&(p->p_child));
-        /* estraggo l'indirizzo del contenitore del primo concatenatore */
         pcb_t* firstPcb = container_of(firstChild, pcb_t, p_sib); 
-        /* elimino il puntatore al padre */
+        /* Elimino il puntatore al padre */
         firstPcb->p_parent = NULL;
-        /* elimino il figlio dalla lista */
+        /* Elimino il figlio dalla lista */
         list_del(firstChild);	
-        /* restituisco il puntatore al figlio rimosso */
-		return firstPcb;
-	
-		
-		
-		/* Se la lista ha dei figli, controllo se ci sono uno o più figli*/
-		if(list_is_last(&(p->p_child), &(p->p_child.next))){
-			/* Non ci sono fratelli, elimino il figlio unico 
-			list_del(&(p->p_child.next));
-		}else{
-			/* Ci sono dei fratelli, elimino il prio figlio 
-			 * e imposto il secondo figlio come primo 
-			struct list_head *tmp_child = list_next(&(p->p_child.next));
-			list_del(&(p->p_child.next));
-			p->p_child.next = tmp_child;
-		}
-		return p;*/
-		
+        /* Restituisco il figlio eliminato */
+	return firstPcb;
 	}
 }
 
