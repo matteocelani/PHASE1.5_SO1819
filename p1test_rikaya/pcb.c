@@ -98,8 +98,9 @@ void insertProcQ(struct list_head *head, pcb_t *p){
 }
 
 
-/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. */
-/* Ritorna NULL se la coda non ha elementi 					      */
+/* Restituisce l'elemento di testa della coda dei processi da head, senza rimuoverlo. 
+ * Ritorna NULL se la coda non ha elementi 					      
+*/
 
 pcb_t *headProcQ(struct list_head *head){
 
@@ -203,47 +204,7 @@ pcb_t *removeChild(pcb_t *p){
 
 pcb_t *outChild(pcb_t *p){
 	/* Controllo se p ha un padre e restituisco NULL in caso negativo */
-        
-	
-	/*   
-	if(p->p_parent == NULL)
-		return NULL;
-	else{
-
-		/* Il padre esiste
-		 * controllo la lista dei figli
-		 * se p è il primo figlio lo elimino solamente, dato che non ha fratelli */
-		/*if(list_is_last(&(p->p_parent->p_child), &(p->p_parent->p_child.next)))
-			list_del(&(p->p_parent->p->child.next));
-		else {
-
-			/* p non è figlio unico
-			 * controllo la sua posizione iterando sulla lista */
-		/*	pcb_t *i;
-			list_for_each_entry(i, p->p_parent->p_child, p->p_sib){
-
-			       if (i == p){
-
-				       /* quando trovo p nella lista dei figli verifico se è l'ultimo e
-					*  - in caso affermativo lo elimino
-					*  - in caso negativo utilizzo una variabile temporanea per puntare al fratello,
-					*    elimino p e aggiungo il fratello di p al posto suo */
-				/*	if(list_is_last(&(i->p_sib), &(i->p_sib.next)))
-						list_del(&(i->p_next));
-					else{
-						struct list_head *tmp_child = list_next(&(i->p_sib));
-						list_del(&(i->p_next));
-						i->p_sib.next = *tmp_child;
-					}
-			       }
-			}
-			return p;
-	}
-	*/ 
 	if ((&(p->p_parent))== NULL) return NULL;
-        
-      
-        
          /*elimino elemento dall'albero*/
          list_del (&(p->p_sib));
          p->p_parent = NULL;
