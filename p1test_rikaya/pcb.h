@@ -1,6 +1,6 @@
 #ifndef PCB_H
 #define PCB_H
-#include </usr/local/include/umps2/umps/types.h>
+#include <umps/types.h>
 #include "types_rikaya.h"
 #include "const.h"
 
