@@ -168,11 +168,12 @@ int emptyChild(pcb_t *this){
 /* Inserisce il PCB puntato da p come figlio del PCB puntato da prnt */
 void insertChild(pcb_t *prnt, pcb_t *p){
 
-	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
-	list_add_tail(&(p->p_next), &(prnt->p_child));
-	
 	/* Collego il figlio con il padre tramite il puntatore *p_parent */
 	p->p_parent = prnt;
+	
+	/* Aggiungo il processo p alla lista dei figli dei processi di prnt */
+	list_add_tail(&(p->p_sib), &(prnt->p_child));
+	
 }
 
 
