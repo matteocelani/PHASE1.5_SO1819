@@ -74,10 +74,10 @@ int insertBlocked(int *key, pcb_t* p){
 	semd = container_of(semdFree_h.next, semd_t, s_next);
 	list_del(semdfree_h.next);
 	
-	INIT_LIST_HEAD(&tmp->s_next);
-	INIT_LIST_HEAD(&tmp->s_procQ);
-	insertProcQ(&tmp->s_procQ, p);
-	tmp->key=key;
+	INIT_LIST_HEAD(&semd->s_next);
+	INIT_LIST_HEAD(&semd->s_procQ);
+	insertProcQ(&semd->s_procQ, p);
+	semd->key=key;
 	
 	semd_t *i;
 	list_for_each_entry(i, &semd_h, s_next) {
