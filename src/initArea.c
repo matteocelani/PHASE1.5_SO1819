@@ -44,3 +44,19 @@ HIDDEN inline void initTLB(u32 status){
     state->pc_epc = tlb_handler;
     state->reg_t9 = tlb_handler;
 }
+
+/* 
+ * Status deve essere settato in maniera tale da:
+ *  - Mascherare gli interrupt
+ *  - Disabilitare la virtual memory
+ *  - Abilita il processor local timer 
+ *  - Essere in kernel mode
+*/
+void initNEWAREA(void){  
+    u32 s = 0;
+    // intanto metto zero, ma andrà cambiato
+    initSYS(s);
+    initPGMTRAP(s);
+    initINT(s);
+    initTLB(s);
+}
