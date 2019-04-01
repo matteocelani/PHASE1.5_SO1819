@@ -17,6 +17,19 @@ u32 process_count = 0;
 /* Contatore processi bloccati per I/O */
 u32 soft_block_count = 0;
 
+/* Puntatori alle NEW AREA della ROM */
+HIDDEN state_t *sysbk_newarea = SYSBK_NEWAREA;
+HIDDEN state_t *program_trap_newarea = PRGTRP_NEWAREA;
+HIDDEN state_t *interrupt_newarea = INT_NEWAREA;
+HIDDEN state_t *tblmgt_newarea = TLB_NEWAREA;
+
+/* Puntatori alle OLD AREA della ROM */
+HIDDEN state_t *sysbk_oldarea = SYSBK_OLDAREA;
+HIDDEN state_t *program_trap_oldarea = PRGTRP_OLDAREA;
+HIDDEN state_t *interrupt_oldarea = INT_OLDAREA;
+HIDDEN state_t *tblmgt_oldarea = TBL_OLDAREA;
+
+
 int main(void){
     
     initPcbs();
