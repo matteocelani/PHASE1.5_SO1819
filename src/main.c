@@ -31,7 +31,6 @@ inline void initSYS(u32 status){
     state->reg_t9 = sys_handler;
 }
 // Bisogna fare la stessa cosa fatta per sys_newarea per gli altri state
-// gli indirizzi sono scritti in const.h
 inline void initPGMTRP(u32 status){    
 }
     
