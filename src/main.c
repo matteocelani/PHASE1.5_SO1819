@@ -17,23 +17,6 @@ u32 process_count = 0;
 /* Contatore processi bloccati per I/O */
 u32 soft_block_count = 0;
 
-
-void initNEWAREA(void){
-    /* Status deve essere settato in maniera tale da:
-     *  - Mascherare gli interrupt
-     *  - Disabilitare la virtual memory
-     *  - Abilita il processor local timer 
-     *  - Essere in kernel mode
-    */
-    u32 s = 0;
-    // intanto metto zero, ma andrà cambiato
-    initSYS(s);
-    initPGMTRAP(s);
-    initINT(s);
-    initTLB(s);
-}
-
-
 int main(void){
     
     initPcbs();
