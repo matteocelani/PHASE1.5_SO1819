@@ -8,13 +8,6 @@
 #include "initArea.h"
 #include "p1.5test_rikaya_v0.c"
 
-state_t* state;
-/* Puntatori alle NEW AREA della ROM */
-HIDDEN state_t *sys_newarea;
-HIDDEN state_t *program_trap_newarea;
-HIDDEN state_t *interrupt_newarea;
-HIDDEN state_t *tblmgt_newarea;
-
 /* Funzioni per l'inizializzazione delle NEW AREA */
 HIDDEN inline void initSYS(u32 status){
     sys_newarea->status = status;
@@ -45,8 +38,8 @@ HIDDEN inline void initTLB(u32 status){
     state->reg_t9 = tlb_handler;
 }
 
-/* 
- * Status deve essere settato in maniera tale da:
+/* Funzione che si occupa dell'inizializzazione delle NEWAREA della ROM.
+ * Viene essere settato il campo status in maniera tale da:
  *  - Mascherare gli interrupt
  *  - Disabilitare la virtual memory
  *  - Abilita il processor local timer 
