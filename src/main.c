@@ -32,10 +32,12 @@ HIDDEN state_t *tblmgt_oldarea = TBL_OLDAREA;
 
 int main(void){
     
+    initNEWAREA();
     initPcbs();
     
-
-
+    current_process = allocPCB();
+    process_count++;
+    
 
     return 0;
 }
