@@ -26,7 +26,7 @@ HIDDEN state_t *tblmgt_newarea;
 inline void initSYS(u32 status){
     sys_newarea->status = status;
     state->reg_sp = RAMTOP;
-    /* Indirizzo della funzione che gestiste le SYSCALL */
+    /* Indirizzo della funzione che gestisce le SYSCALL */
     state->pc_epc = sys_handler;  // La funzione la dobbiamo scrivere, intanto metto il nome
     state->reg_t9 = sys_handler;
 }
