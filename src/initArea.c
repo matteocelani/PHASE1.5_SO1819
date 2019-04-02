@@ -48,14 +48,14 @@ HIDDEN inline void initTLB(u32 status){
 void initAREA(void){  
     u32 s = 0;
     
-    memset(sysbk_newarea, 0, 0x8C);
-    memset(sysbk_oldarea, 0, 0x8C);
-    memset(program_trap_newarea, 0, 0x8C);
-    memset(program_trap_oldarea, 0, 0x8C);
-    memset(interrupt_newarea, 0, 0x8C);
-    memset(interrupt_oldarea, 0, 0x8C);
-    memset(tblmgt_newarea, 0, 0x8C);
-    memset(tblmgt_oldarea, 0, 0x8C);
+    memset(sysbk_newarea, 0, sizeof(state_t));
+    memset(sysbk_oldarea, 0, sizeof(state_t));
+    memset(program_trap_newarea, 0, sizeof(state_t));
+    memset(program_trap_oldarea, 0, sizeof(state_t));
+    memset(interrupt_newarea, 0, sizeof(state_t));
+    memset(interrupt_oldarea, 0, sizeof(state_t));
+    memset(tblmgt_newarea, 0, sizeof(state_t));
+    memset(tblmgt_oldarea, 0, sizeof(state_t));
     
     // intanto metto zero, ma andrà cambiato
     initSYS(s);
