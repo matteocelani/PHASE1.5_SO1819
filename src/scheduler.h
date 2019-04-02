@@ -2,6 +2,8 @@
 #include "const.h"
 #include "pcb.h"
 
+#define TIME_SLICE  3
+
 
 void priorityAging();
 
