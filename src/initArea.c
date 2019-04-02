@@ -45,8 +45,18 @@ HIDDEN inline void initTLB(u32 status){
  *  - Abilita il processor local timer 
  *  - Essere in kernel mode
 */
-void initNEWAREA(void){  
+void initAREA(void){  
     u32 s = 0;
+    
+    memset(sysbk_newarea, 0, 0x8C);
+    memset(sysbk_oldarea, 0, 0x8C);
+    memset(program_trap_newarea, 0, 0x8C);
+    memset(program_trap_oldarea, 0, 0x8C);
+    memset(interrupt_newarea, 0, 0x8C);
+    memset(interrupt_oldarea, 0, 0x8C);
+    memset(tblmgt_newarea, 0, 0x8C);
+    memset(tblmgt_oldarea, 0, 0x8C);
+    
     // intanto metto zero, ma andrà cambiato
     initSYS(s);
     initPGMTRAP(s);
