@@ -58,6 +58,7 @@ pcb_t *allocPcb(void){
 	tmp->p_parent = NULL;
 	tmp->p_semkey = NULL;
 	tmp->priority = 0;
+	tmp->original_priority = 0;
 	tmp->p_s.entry_hi = 0;
 	tmp->p_s.cause = 0;
 	tmp->p_s.status = 0;
