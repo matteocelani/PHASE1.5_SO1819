@@ -13,8 +13,8 @@ HIDDEN inline void initSYSBK(u32 status){
     sysbk_newarea->status = status;
     sysbk_newarea->reg_sp = RAMTOP;
     /* Indirizzo della funzione che gestisce le SYSCALL */
-    sysbk_newarea->pc_epc = sys_handler;  // La funzione la dobbiamo scrivere, intanto metto il nome
-    sysbk_newarea->reg_t9 = sys_handler;
+    sysbk_newarea->pc_epc = sysbk_handler;  // La funzione la dobbiamo scrivere, intanto metto il nome
+    sysbk_newarea->reg_t9 = sysbk_handler;
 }
 
 HIDDEN inline void initPGMTRP(u32 status){  
