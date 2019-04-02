@@ -36,4 +36,8 @@
 #define SYSBK_NEWAREA 0x200003d4
 #define SYSBK_OLDAREA 0x20000348
 
+/* System Call */
+#define TERMINATEPROCESS 2
+
+
 #endif
