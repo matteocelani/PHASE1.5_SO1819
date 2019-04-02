@@ -18,7 +18,7 @@ void priorityAging() {
 
 }
 
-void deadlockDetected() {
+void contextSwitch() {
 	if (!ready_queue) {
 		/* se process count = 0 invoco HALT ROM */
 		if (process_count == 0) 
@@ -34,4 +34,3 @@ void deadlockDetected() {
 	
 		
 }
-
