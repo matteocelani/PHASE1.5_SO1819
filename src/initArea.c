@@ -49,13 +49,10 @@ void initAREA(void){
     u32 s = 0;
     
     memset(sysbk_newarea, 0, sizeof(state_t));
-    memset(sysbk_oldarea, 0, sizeof(state_t));
     memset(program_trap_newarea, 0, sizeof(state_t));
-    memset(program_trap_oldarea, 0, sizeof(state_t));
     memset(interrupt_newarea, 0, sizeof(state_t));
-    memset(interrupt_oldarea, 0, sizeof(state_t));
     memset(tblmgt_newarea, 0, sizeof(state_t));
-    memset(tblmgt_oldarea, 0, sizeof(state_t));
+
     
     // intanto metto zero, ma andrà cambiato
     initSYS(s);
