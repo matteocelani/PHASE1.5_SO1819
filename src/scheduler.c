@@ -19,6 +19,10 @@ void priorityAging() {
 }
 
 void contextSwitch() {
+	/*Verifica che i processi vengano alternati correttamente*/
+	log_process_order(pcb_t->orignal_priority) ;
+	
+	/*gestione dei deadlock poi dei processi*/
 	if (!ready_queue) {
 		/* se process count = 0 invoco HALT ROM */
 		if (process_count == 0) 
@@ -30,7 +34,9 @@ void contextSwitch() {
 		else if (process_count > 0 && soft_block_count > 0)
 			WAIT();
 	}
-	else
+	else {
+		
+	}
 	
 		
 }
