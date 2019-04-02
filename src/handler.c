@@ -1,4 +1,4 @@
-void sysbkhandler(void){
+void sysbk_handler(void){
     /* Stato dell'esecuzione prima dell'eccezione */
     state_t *old_state = sysbk_oldarea;
     /* Registro nel quale è salvata la SYSCALL chiamata */
