@@ -8,4 +8,4 @@
 void priorityAging();
 
 /*funzione che in caso di deadlock lo gestisce altrimenti Round Robin tra i processi */
-void contextSwitch();
+void scheduler();
