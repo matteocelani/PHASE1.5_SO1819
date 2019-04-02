@@ -17,3 +17,20 @@ void priorityAging() {
 	}
 
 }
+
+void contextSwitch() {
+	if (!ready_queue) {
+		/* se process count = 0 invoco HALT ROM */
+		if (process_count == 0) 
+			HALT();
+    		/* se process count > 0 e soft block count = 0 deadlock */
+		else if (process_count > 0 && soft_block_count == 0)
+			PANIC();
+    		/* se process count e soft block count > 0 invoco un ionstruzione WAIT*/
+		else if (process_count > 0 && soft_block_count > 0)
+			WAIT();
+	}
+	else
+	
+		
+}
