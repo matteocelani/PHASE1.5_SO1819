@@ -6,6 +6,7 @@
 #include "scheduler.h"
 #include "types_rikaya.h"
 #include "initArea.h"
+#include "utils.h"
 #include "p1.5test_rikaya_v0.c"
 
 /* Lista dei processi ready */
