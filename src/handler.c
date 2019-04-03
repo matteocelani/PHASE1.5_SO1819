@@ -10,7 +10,7 @@ void sysbk_handler(void){
     /* Stato dell'esecuzione prima dell'eccezione */
     state_t *old_state = sysbk_oldarea;
     /* Registro nel quale è salvata la SYSCALL chiamata */
-    u32 syscall_number = old_state->reg_a0   
+    u32 syscall_number = old_state->reg_a0
     
     switch (syscall_number){
         /* Eseguo la SYSCALL richiesta */
@@ -41,11 +41,15 @@ void pgmtrp_handler(void){
 }
 
 
-
-
-
-
 /* SYSTEMCALL */
+/* Definite HIDDEN perché le rende accessibili solo da sysbk_handler */
+
+
+/* SYSCALL3
+ * Quando invocata termina il processo corrente
+ * e tutta la sua progenie, rimuovendoli dalla
+ * Ready Queue.
+*/
 HIDDEN void terminatProcess(void){
     /* codice syscall */   
 }
