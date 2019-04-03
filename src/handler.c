@@ -5,6 +5,7 @@
 #include "types_rikaya.h"
 #include "p1.5test_rikaya_v0.c"
 
+/* Gestione SYSCALL/BREAKPOINT */
 void sysbk_handler(void){
     /* Stato dell'esecuzione prima dell'eccezione */
     state_t *old_state = sysbk_oldarea;
@@ -15,9 +16,36 @@ void sysbk_handler(void){
         /* Eseguo la SYSCALL richiesta */
         case TERMINATEPROCESS:
             // SYSCALL TERMINATE PROCESS
-            break:
+            break;
         default:
             /* Errore numero SYSCALL inesistente */
             PANIC();
-    }        
+    }
+    
+    /* Gestione dei BREAKPOINT da implementare nella PHASE2 */
+}
+
+/* Gestione INTERRUPT */
+void int_handler(void){
+    
+}
+
+/* Gestione TLB */
+void tlb_handler(void){
+    /* Da implementare nella PHASE2 */
+}
+
+/* Gestione PGMTRP */
+void pgmtrp_handler(void){
+    /* Da implementare nella PHASE2 */
+}
+
+
+
+
+
+
+/* SYSTEMCALL */
+HIDDEN void terminatProcess(void){
+    /* codice syscall */   
 }
