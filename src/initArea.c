@@ -20,8 +20,8 @@ HIDDEN inline void initSYSBK(u32 status){
 HIDDEN inline void initPGMTRP(u32 status){  
     program_trap_newarea->status = status;
     program_trap_newarea->reg_sp = RAMTOP;
-    program_trap_newarea->pc_epc = gmtrp_handler;
-    program_trap_newarea->reg_t9 = gmtrp_handler;
+    program_trap_newarea->pc_epc = pgmtrp_handler;
+    program_trap_newarea->reg_t9 = pgmtrp_handler;
 }
     
 HIDDEN inline void initINT(u32 status){  
