@@ -4,8 +4,8 @@
 
 #define TIME_SLICE  3
 
-
-void priorityAging();
-
 /*funzione che in caso di deadlock lo gestisce altrimenti Round Robin tra i processi */
 void scheduler();
+
+HIDDEN inline void priorityAging(void);
+HIDDEN inline void restorePriority(pcb_t *pcb);
