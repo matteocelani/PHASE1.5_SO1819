@@ -10,4 +10,14 @@ void sysbk_handler(void){
     state_t *old_state = sysbk_oldarea;
     /* Registro nel quale è salvata la SYSCALL chiamata */
     u32 syscall_number = old_state->reg_a0   
+    
+    switch (syscall_number){
+        /* Eseguo la SYSCALL richiesta */
+        case TERMINATEPROCESS:
+            // SYSCALL TERMINATE PROCESS
+            break:
+        default:
+            /* Errore numero SYSCALL inesistente */
+            PANIC();
+    }        
 }
