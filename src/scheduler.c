@@ -26,7 +26,9 @@ void scheduler(void) {
 		
 }
 
+// restorePriority e priorityAgin vanno chiamate dopo aver estratto il processo (con priorità massima) dalla readyqueue
 
+/* Funzione che si occupa del meccanismo di aging delle priorità dei PCB nella ready queue */
 HIDDEN inline void priorityAging(void) {
 	if (ready_queue) {
     		/* PCB temporaneo che uso per scorrere la ready_queue */
@@ -42,7 +44,7 @@ HIDDEN inline void priorityAging(void) {
 
 }
 
-
+/* Funzione che si occupa di ripristinare la priorità originale di un PCB */
 HIDDEN inline void restorePriority(pcb_t *pcb){
 	pcb->priority = pcb->original_priority 	
 }
