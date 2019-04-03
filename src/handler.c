@@ -21,6 +21,7 @@ void sysbk_handler(void){
             /* Errore numero SYSCALL inesistente */
             PANIC();
     }
+    scheduler():
     
     /* Gestione dei BREAKPOINT da implementare nella PHASE2 */
 }
@@ -42,7 +43,7 @@ void pgmtrp_handler(void){
 
 
 /* SYSTEMCALL */
-/* Definite HIDDEN perché le rende accessibili solo da sysbk_handler */
+/* Definite HIDDEN perché devono essere accessibili solo da sysbk_handler */
 
 
 /* SYSCALL3
@@ -50,6 +51,6 @@ void pgmtrp_handler(void){
  * e tutta la sua progenie, rimuovendoli dalla
  * Ready Queue.
 */
-HIDDEN void terminatProcess(void){
+HIDDEN void terminateProcess(void){
     /* codice syscall */   
 }
