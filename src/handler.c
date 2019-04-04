@@ -54,5 +54,6 @@ void pgmtrp_handler(void){
 HIDDEN void terminateProcess(pcb_t *p){  
     while(!list_empty(p->p_child))
         freePcb(removeChild(p->p_child));
+    outChild(p);
     freePcb(p);
 }
