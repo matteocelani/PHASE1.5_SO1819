@@ -51,6 +51,8 @@ void pgmtrp_handler(void){
  * e tutta la sua progenie, rimuovendoli dalla
  * Ready Queue.
 */
-HIDDEN void terminateProcess(void){
-    /* codice syscall */   
+HIDDEN void terminateProcess(pcb_t *p){  
+    while(!list_empty(p->p_child))
+        freePcb(removeChild(p->p_child));
+    freePcb(p);
 }
