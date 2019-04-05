@@ -18,6 +18,9 @@ void scheduler(void) {
 			WAIT();
 	}
 	else {
+		/*Caso anomalo: nessun processo corrente*/
+		if (current_process == NULL)
+			PANIC();
 		//headProcQ(current_process);
 	}
 	
