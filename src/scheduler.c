@@ -11,10 +11,10 @@ void scheduler(void) {
 		if (process_count == 0) 
 			HALT();
     		/* se process count > 0 e soft block count = 0 deadlock */
-		else if (process_count > 0 && soft_block_count == 0)
+		if (process_count > 0 && soft_block_count == 0)
 			PANIC();
     		/* se process count e soft block count > 0 invoco un istruzione WAIT*/
-		else if (process_count > 0 && soft_block_count > 0)
+		if (process_count > 0 && soft_block_count > 0)
 			WAIT();
 	}
 	else {
