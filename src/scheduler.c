@@ -51,3 +51,5 @@ HIDDEN inline void priorityAging(void) {
 HIDDEN inline void restorePriority(pcb_t *pcb){
 	pcb->priority = pcb->original_priority 	
 }
+//gestire un solo inturupt quello del tempo
+//l'unica cosa che esegue lo scheduler e il passaggio da un processo ad un altro
