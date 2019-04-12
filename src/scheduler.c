@@ -4,25 +4,34 @@
 #include "listx.h"
 
 
-void scheduler(void) {
+void scheduler(void) 
+{
 
 	/*gestione dei deadlock poi dei processi*/
-	if (list_empty(ready_queue)) {
-		/* se process count = 0 invoco HALT ROM */
-		if (process_count == 0) 
-			HALT();
-    		/* se process count > 0 e soft block count = 0 deadlock */
-		if (process_count > 0 && soft_block_count == 0)
-			PANIC();
-    		/* se process count e soft block count > 0 invoco un istruzione WAIT*/
-		if (process_count > 0 && soft_block_count > 0)
-			WAIT();
-	}
-	else {
+	if (current_process) 
+	{
 		/*Caso anomalo: nessun processo corrente*/
 		if (current_process == NULL)
 			PANIC();
-		//headProcQ(current_process);
+		/* Carica i processi nell'ordine in cui devono essere eseguiti */
+		LDST(&(CurrentProcess->p_s));
+		
+	}
+	else 
+	{
+		if (emptyProcQ(ready_queue)
+		    {
+			/* se process count = 0 invoco HALT ROM */
+			if (process_count == 0) 
+				HALT();
+    			/* se process count > 0 e soft block count = 0 deadlock */
+			if (process_count > 0 && soft_block_count == 0)
+				PANIC();
+    			/* se process count e soft block count > 0 invoco un istruzione WAIT*/
+			if (process_count > 0 && soft_block_count > 0)
+				WAIT();					//si dovrebbero gestire anche gli interupts (abilitare gli interupts)
+		    }
+		    PANIC();
 	}
 	
 	/*Verifica che i processi vengano alternati correttamente*/
