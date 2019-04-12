@@ -10,9 +10,6 @@ void scheduler(void)
 	/*gestione dei deadlock poi dei processi*/
 	if (current_process) 
 	{
-		/*Caso anomalo: nessun processo corrente*/
-		if (current_process == NULL)
-			PANIC();
 		/* Carica i processi nell'ordine in cui devono essere eseguiti */
 		LDST(&(CurrentProcess->p_s));
 		
