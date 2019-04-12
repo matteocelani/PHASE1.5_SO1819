@@ -15,7 +15,7 @@ void scheduler(void)
 	}
 	else 
 	{
-		/* Caso Readu Queue vuota*/
+		/* Caso Ready Queue vuota*/
 		if (emptyProcQ(ready_queue)
 		    {
 			/* Non ci sono altri processi*/
