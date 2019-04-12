@@ -12,7 +12,6 @@ void scheduler(void)
 	{
 		/* Carica i processi nell'ordine in cui devono essere eseguiti */
 		LDST(&(CurrentProcess->p_s));
-		
 	}
 	else 
 	{
