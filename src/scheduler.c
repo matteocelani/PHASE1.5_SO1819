@@ -15,15 +15,16 @@ void scheduler(void)
 	}
 	else 
 	{
+		/* Caso Readu Queue vuota*/
 		if (emptyProcQ(ready_queue)
 		    {
-			/* se process count = 0 invoco HALT ROM */
+			/* Non ci sono altri processi*/
 			if (process_count == 0) 
 				HALT();
-    			/* se process count > 0 e soft block count = 0 deadlock */
+    			/* Rilevazione di Deadlock*/
 			if (process_count > 0 && soft_block_count == 0)
 				PANIC();
-    			/* se process count e soft block count > 0 invoco un istruzione WAIT*/
+    			/* Un processo e bloccato */
 			if (process_count > 0 && soft_block_count > 0)
 				WAIT();					//si dovrebbero gestire anche gli interupts (abilitare gli interupts)
 		    }
