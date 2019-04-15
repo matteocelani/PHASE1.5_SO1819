@@ -7,6 +7,7 @@
 #include "types_rikaya.h"
 #include "initArea.h"
 #include "p1.5test_rikaya_v0.c"
+#include "umps/cp0.h"
 
 /* Funzioni per l'inizializzazione delle NEW AREA */
 HIDDEN inline void initSYSBK(u32 status){
@@ -46,7 +47,15 @@ HIDDEN inline void initTLB(u32 status){
  *  - Essere in kernel mode
 */
 void initAREA(void){  
+    
+    /* Nello status:
+     * Maschero interrupt
+     * Setto Virtual Memory OFF
+     * attivo il Processor Local Timer
+     * abilito il kernel-mode
+     */
     u32 s = 0;
+    s = ~(STATUS_IEc) | ~(STATUS_KUc) | ~(STATUS_VMc) | ~(STATUS_TE);
     
     memset(sysbk_newarea, 0, sizeof(state_t));
     memset(program_trap_newarea, 0, sizeof(state_t));
@@ -59,4 +68,6 @@ void initAREA(void){
     initPGMTRAP(s);
     initINT(s);
     initTLB(s);
+    
+    
 }
