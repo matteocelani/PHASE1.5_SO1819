@@ -54,5 +54,7 @@
 /* System Call */
 #define TERMINATEPROCESS 3
 
+/*Define Time-Slice*/
+#define TIMESLICE 3
 
 #endif
