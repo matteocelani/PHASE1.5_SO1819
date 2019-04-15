@@ -55,7 +55,9 @@ void initAREA(void){
      * abilito il kernel-mode
      */
     u32 s = 0;
-    s = ~(STATUS_IEc) | ~(STATUS_KUc) | ~(STATUS_VMc) | ~(STATUS_TE);
+    s |= (STATUS_IEc); 
+    s |= ~(STATUS_VMc); 
+    s |= (STATUS_TE);
     
     memset(sysbk_newarea, 0, sizeof(state_t));
     memset(program_trap_newarea, 0, sizeof(state_t));
